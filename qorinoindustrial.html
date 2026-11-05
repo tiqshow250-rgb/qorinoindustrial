@@ -1,0 +1,2794 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#05070d" />
+<title>Qorino Industrial — Machinery Solutions & Technology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ================= TOKENS ================= */
+:root{
+  --bg:#05070d;
+  --panel:#0b1220;
+  --panel2:#101a2c;
+  --line:rgba(255,255,255,.09);
+  --line2:rgba(255,255,255,.18);
+  --text:#e9eff9;
+  --muted:#93a3ba;
+  --h:22;
+  --acc:hsl(var(--h) 92% 62%);
+  --acc-soft:hsl(var(--h) 92% 62% / .13);
+  --acc-line:hsl(var(--h) 92% 62% / .35);
+  --ok:#34d399; --warn:#fbbf24; --bad:#f87171;
+  --r:14px;
+  --maxw:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--text);overflow-x:hidden;
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:"Space Grotesk",Inter,sans-serif;line-height:1.14;margin:0;letter-spacing:-.02em}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+::selection{background:var(--acc);color:#0a0600}
+
+/* ================= FUTURISTIC BACKGROUND ================= */
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+body::before{
+  content:"";position:fixed;inset:-20%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(60% 45% at 15% 5%, hsl(24 95% 55% / .20), transparent 60%),
+    radial-gradient(55% 45% at 85% 12%, hsl(200 95% 55% / .17), transparent 62%),
+    radial-gradient(60% 50% at 50% 105%, hsl(285 95% 60% / .16), transparent 62%),
+    radial-gradient(45% 35% at 70% 60%, hsl(150 95% 50% / .10), transparent 65%);
+  filter:blur(30px);
+  animation:aurora 22s ease-in-out infinite alternate;
+}
+@keyframes aurora{
+  0%{transform:translate3d(-2%, -1%,0) scale(1)}
+  50%{transform:translate3d(2%, 2%,0) scale(1.08)}
+  100%{transform:translate3d(-1%, 1%,0) scale(1.03)}
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:70px 70px;
+  -webkit-mask-image:radial-gradient(ellipse 120% 70% at 50% 0%,#000 20%,transparent 80%);
+          mask-image:radial-gradient(ellipse 120% 70% at 50% 0%,#000 20%,transparent 80%);
+}
+
+/* ================= LAYOUT ================= */
+.wrap{width:min(100% - 40px,var(--maxw));margin-inline:auto;position:relative;z-index:2}
+main{position:relative;z-index:2;min-height:70vh}
+.section{padding:86px 0;position:relative;z-index:2}
+.section-head{max-width:720px;margin-bottom:44px}
+.section-head h2{font-size:clamp(1.7rem,3.2vw,2.5rem)}
+.section-head p{color:var(--muted);margin-top:14px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;font-size:.72rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--acc);font-weight:700;margin-bottom:14px;
+}
+.eyebrow::before{
+  content:"";width:8px;height:8px;border-radius:2px;background:var(--acc);
+  box-shadow:0 0 14px var(--acc);
+}
+
+/* ================= RGB BUTTONS ================= */
+.btn{
+  position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 22px;border-radius:11px;font-weight:700;font-size:.93rem;cursor:pointer;
+  border:1px solid var(--line2);background:rgba(255,255,255,.05);color:var(--text);
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+  isolation:isolate;white-space:nowrap;
+}
+.btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.1)}
+.btn:active{transform:translateY(0)}
+.btn-rgb::before{
+  content:"";position:absolute;inset:-1.5px;border-radius:12px;z-index:-1;
+  background:conic-gradient(from 0deg,#ff4d4d,#ffb84d,#e8ff4d,#4dff9e,#4dd8ff,#7a4dff,#ff4dd2,#ff4d4d);
+  animation:rgb 7s linear infinite;opacity:.95;
+}
+.btn-rgb::after{
+  content:"";position:absolute;inset:0;border-radius:11px;z-index:-1;
+  background:linear-gradient(135deg,hsl(var(--h) 92% 56%),hsl(calc(var(--h) + 40) 92% 50%));
+}
+.btn-rgb{color:#0a0600;border-color:transparent;box-shadow:0 10px 28px -12px hsl(var(--h) 92% 60% / .9)}
+@keyframes rgb{to{filter:hue-rotate(360deg)}}
+.btn-ghost{background:rgba(255,255,255,.04)}
+.btn-sm{padding:9px 15px;font-size:.83rem;border-radius:9px}
+.btn-block{width:100%}
+
+/* ================= HEADER ================= */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:80;
+  border-bottom:1px solid transparent;transition:.25s;
+}
+header.scrolled{background:rgba(5,7,13,.86);backdrop-filter:blur(16px);border-bottom-color:var(--line)}
+.nav{display:flex;align-items:center;gap:18px;height:74px}
+.logo{display:flex;align-items:center;gap:11px;flex:0 0 auto}
+.logo svg{width:40px;height:40px;filter:drop-shadow(0 0 12px hsl(24 95% 60% / .55))}
+.logo-txt{display:flex;flex-direction:column;line-height:1}
+.logo-txt strong{font-family:"Space Grotesk";font-size:1.04rem;letter-spacing:.1em}
+.logo-txt small{font-size:.56rem;letter-spacing:.36em;color:var(--muted);margin-top:4px}
+.navlinks{display:flex;align-items:center;gap:22px;margin-left:auto}
+.navlinks a{font-size:.89rem;color:var(--muted);transition:.18s;position:relative;padding:4px 0}
+.navlinks a:hover{color:#fff}
+.navlinks a::after{
+  content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;border-radius:2px;
+  background:conic-gradient(from 0deg,#ff4d4d,#ffb84d,#4dff9e,#4dd8ff,#7a4dff,#ff4dd2,#ff4d4d);
+  opacity:0;transition:.2s;animation:rgb 7s linear infinite;
+}
+.navlinks a:hover::after{opacity:1}
+.nav-actions{display:flex;align-items:center;gap:10px;margin-left:6px}
+.burger{display:none;background:none;border:0;padding:8px;cursor:pointer;flex-direction:column;gap:5px}
+.burger span{width:22px;height:2px;background:var(--text);border-radius:2px}
+.user-chip{
+  display:flex;align-items:center;gap:9px;padding:6px 12px 6px 6px;border-radius:99px;
+  border:1px solid var(--line2);background:rgba(255,255,255,.05);font-size:.84rem;
+}
+.avatar{
+  width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+  background:conic-gradient(from 0deg,#ff4d4d,#ffb84d,#4dff9e,#4dd8ff,#7a4dff,#ff4dd2,#ff4d4d);
+  color:#0a0600;font-weight:800;font-size:.75rem;animation:rgb 8s linear infinite;
+}
+
+/* ================= HERO ================= */
+.hero{padding:160px 0 80px}
+.pill{
+  display:inline-flex;align-items:center;gap:9px;padding:7px 15px;border-radius:99px;
+  background:hsl(24 95% 60% / .1);border:1px solid hsl(24 95% 60% / .35);
+  color:#ffc79a;font-size:.79rem;font-weight:600;margin-bottom:24px;
+}
+.pill i{width:7px;height:7px;border-radius:50%;background:#ff8a3d;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,138,61,.6)}50%{opacity:.6;box-shadow:0 0 0 8px rgba(255,138,61,0)}}
+.hero h1{font-size:clamp(2.1rem,5.3vw,3.9rem);max-width:16ch;letter-spacing:-.035em}
+.grad{
+  background:linear-gradient(100deg,#ff9a45,#ff6a00 45%,#ffd9a8 70%,#8ad8ff 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p.lead{color:var(--muted);font-size:1.08rem;max-width:62ch;margin-top:22px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:13px;margin-top:32px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:62px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.stat{background:rgba(11,18,32,.8);padding:22px 20px}
+.stat b{display:block;font-family:"Space Grotesk";font-size:1.7rem;color:#fff}
+.stat span{font-size:.8rem;color:var(--muted)}
+
+/* ================= CARDS ================= */
+.grid{display:grid;gap:16px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.card{
+  position:relative;background:linear-gradient(180deg,var(--panel),var(--panel2));
+  border:1px solid var(--line);border-radius:var(--r);padding:24px;
+  transition:transform .22s,border-color .22s,box-shadow .22s;overflow:hidden;
+}
+.card:hover{transform:translateY(-4px);border-color:var(--acc-line);box-shadow:0 18px 40px -26px hsl(var(--h) 92% 60% / .8)}
+.card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:.22s;
+  background:linear-gradient(90deg,transparent,var(--acc),transparent);
+}
+.card:hover::before{opacity:1}
+.card .ico{
+  width:44px;height:44px;border-radius:12px;display:grid;place-items:center;margin-bottom:16px;
+  background:var(--acc-soft);border:1px solid var(--acc-line);color:var(--acc);
+}
+.card h3{font-size:1.05rem;margin-bottom:8px}
+.card p{color:var(--muted);font-size:.9rem}
+.card ul{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:7px}
+.card li{font-size:.85rem;color:#b9c6d8;display:flex;gap:8px}
+.card li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--acc);margin-top:8px;flex:0 0 auto}
+.tag{
+  font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 8px;border-radius:99px;background:var(--acc-soft);color:var(--acc);
+  border:1px solid var(--acc-line);white-space:nowrap;
+}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  font-size:.78rem;padding:7px 14px;border-radius:99px;border:1px solid var(--line2);
+  background:rgba(255,255,255,.04);color:#b9c6d8;cursor:pointer;transition:.18s;
+}
+.chip:hover{background:rgba(255,255,255,.1);color:#fff}
+.chip.active{background:var(--acc-soft);border-color:var(--acc-line);color:var(--acc)}
+
+/* ================= MODULE / FEATURE TILES ================= */
+.modcard{
+  display:flex;gap:14px;padding:20px;border-radius:var(--r);border:1px solid var(--line);
+  background:linear-gradient(180deg,var(--panel),var(--panel2));
+  transition:transform .2s,border-color .2s,box-shadow .2s;position:relative;
+}
+.modcard:hover{transform:translateY(-3px);border-color:var(--acc-line);box-shadow:0 16px 36px -24px hsl(var(--h) 92% 60% / .9)}
+.modcard .ico{flex:0 0 auto;width:42px;height:42px;border-radius:11px;display:grid;place-items:center;background:var(--acc-soft);border:1px solid var(--acc-line);color:var(--acc)}
+.modcard h4{font-size:.98rem;margin-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.modcard p{font-size:.85rem;color:var(--muted)}
+.arrow{margin-left:auto;color:var(--muted);font-size:1.1rem;align-self:center}
+
+/* ================= FORMS ================= */
+form.panel, .panel-box{
+  border:1px solid var(--line);border-radius:var(--r);padding:28px;
+  background:linear-gradient(180deg,var(--panel),#0a101c);
+}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:.77rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;font-weight:600}
+.field input,.field select,.field textarea{
+  width:100%;padding:12px 14px;border-radius:10px;font-family:inherit;font-size:.93rem;
+  background:rgba(255,255,255,.05);border:1px solid var(--line2);color:var(--text);transition:.18s;
+}
+.field textarea{min-height:110px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
+.field select option{background:#0b1220;color:var(--text)}
+.err{color:var(--bad);font-size:.75rem;margin-top:5px;display:none}
+.field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--bad)}
+.field.invalid .err{display:block}
+.note{font-size:.76rem;color:var(--muted);margin-top:12px;text-align:center}
+
+/* ================= ALERTS / BADGES ================= */
+.badge{font-size:.66rem;font-weight:800;padding:3px 9px;border-radius:99px;letter-spacing:.05em}
+.b-ok{background:rgba(52,211,153,.15);color:var(--ok)}
+.b-warn{background:rgba(251,191,36,.15);color:var(--warn)}
+.b-bad{background:rgba(248,113,113,.15);color:var(--bad)}
+
+/* ================= DASHBOARD ================= */
+.dash{border:1px solid var(--line2);border-radius:16px;overflow:hidden;background:linear-gradient(180deg,#0c1422,#080e18);box-shadow:0 40px 90px -50px #000}
+.dash-top{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.03);flex-wrap:wrap}
+.dots{display:flex;gap:6px}
+.dots i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.15)}
+.dash-top small{color:var(--muted);font-size:.75rem}
+.live{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:.72rem;color:var(--ok)}
+.live i{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2s infinite}
+.dash-body{display:grid;grid-template-columns:190px 1fr}
+.dash-side{border-right:1px solid var(--line);padding:14px 10px;display:grid;gap:3px;align-content:start;background:rgba(255,255,255,.015)}
+.dash-side button{
+  display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:8px;border:0;
+  background:none;color:var(--muted);font-size:.82rem;cursor:pointer;text-align:left;width:100%;
+  transition:.15s;font-family:inherit;
+}
+.dash-side button:hover{background:rgba(255,255,255,.06);color:#fff}
+.dash-side button.on{background:var(--acc-soft);color:var(--acc);font-weight:600}
+.dash-side button i{width:6px;height:6px;border-radius:2px;background:currentColor;opacity:.75}
+.dash-main{padding:18px;min-height:480px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:14px}
+.kpi{border:1px solid var(--line);border-radius:11px;padding:13px 14px;background:rgba(255,255,255,.03)}
+.kpi span{font-size:.71rem;color:var(--muted)}
+.kpi b{display:block;font-family:"Space Grotesk";font-size:1.3rem;margin-top:3px}
+.kpi em{font-style:normal;font-size:.68rem;color:var(--ok)}
+.kpi em.dn{color:var(--bad)}
+.pgrid{display:grid;grid-template-columns:1.3fr 1fr;gap:11px}
+.pgrid + .pgrid{margin-top:11px}
+.pnl{border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.03);overflow:hidden}
+.pnl-h{padding:11px 14px;border-bottom:1px solid var(--line);font-size:.77rem;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+.pnl-h b{color:var(--text);font-size:.8rem}
+.mrow{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);display:grid;grid-template-columns:1fr auto;gap:5px 10px;align-items:center;cursor:pointer;transition:.15s}
+.mrow:hover{background:rgba(255,255,255,.05)}
+.mrow:last-child{border-bottom:0}
+.mrow .nm{font-size:.83rem;font-weight:600}
+.mrow .sb{font-size:.69rem;color:var(--muted)}
+.bar{grid-column:1/-1;height:5px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#2dd4bf,#34d399)}
+.bar i.w{background:linear-gradient(90deg,#fbbf24,#f59e0b)}
+.bar i.b{background:linear-gradient(90deg,#f87171,#ef4444)}
+.bar i.e{background:linear-gradient(90deg,#a3e635,#34d399)}
+.bar i.o{background:linear-gradient(90deg,#38bdf8,#2dd4bf)}
+.bar i.f{background:linear-gradient(90deg,#34d399,#2dd4bf)}
+.bar i.r{background:linear-gradient(90deg,#f87171,#ef4444)}
+.crow{display:grid;grid-template-columns:1fr auto;gap:5px 10px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
+.crow:last-child{border-bottom:0}
+.crow .l{color:#b9c6d8;font-size:.79rem}
+.crow .v{font-family:"Space Grotesk";font-size:.8rem}
+.cbar{grid-column:1/-1;height:5px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.cbar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,hsl(var(--h) 92% 60%),hsl(calc(var(--h) + 40) 92% 55%))}
+.al{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;gap:10px;font-size:.77rem;color:#b9c6d8}
+.al:last-child{border-bottom:0}
+.al i{width:7px;height:7px;border-radius:50%;margin-top:7px;flex:0 0 auto}
+.al i.b{background:var(--bad)} .al i.w{background:var(--warn)} .al i.o{background:var(--ok)}
+.al span{display:block;font-size:.67rem;color:var(--muted);margin-top:2px}
+
+/* ================= PROCESS / STEPS ================= */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.step{border:1px solid var(--line);border-radius:var(--r);padding:24px;background:rgba(255,255,255,.03);transition:.2s;display:block}
+.step:hover{border-color:var(--acc-line);transform:translateY(-3px)}
+.step b{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--acc-soft);color:var(--acc);font-family:"Space Grotesk";margin-bottom:14px;border:1px solid var(--acc-line)}
+.step h4{font-size:1rem;margin-bottom:7px}
+.step p{font-size:.86rem;color:var(--muted)}
+
+/* ================= PRICING ================= */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px;align-items:start}
+.plan{border:1px solid var(--line);border-radius:var(--r);padding:28px 24px;background:linear-gradient(180deg,var(--panel),var(--panel2));position:relative;transition:.2s}
+.plan:hover{border-color:var(--acc-line);transform:translateY(-3px)}
+.plan.pop{border-color:var(--acc-line);box-shadow:0 24px 60px -34px hsl(var(--h) 92% 60% / .9)}
+.plan .badge-pop{position:absolute;top:-11px;left:24px;background:linear-gradient(135deg,hsl(var(--h) 92% 58%),hsl(calc(var(--h) + 40) 92% 52%));color:#0a0600;font-size:.66rem;font-weight:800;padding:4px 12px;border-radius:99px;letter-spacing:.07em}
+.plan .amt{font-family:"Space Grotesk";font-size:2rem;margin:14px 0 2px}
+.plan .amt small{font-size:.8rem;color:var(--muted);font-family:Inter;font-weight:400}
+.plan ul{list-style:none;padding:0;margin:18px 0 22px;display:grid;gap:9px}
+.plan li{font-size:.85rem;color:#b9c6d8;display:flex;gap:9px}
+.plan li::before{content:"✓";color:var(--acc);font-weight:800;font-size:.8rem}
+
+/* ================= FAQ ================= */
+details{border-bottom:1px solid var(--line);padding:18px 0}
+details summary{cursor:pointer;list-style:none;font-family:"Space Grotesk";font-size:1rem;display:flex;justify-content:space-between;gap:18px;align-items:center}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";color:var(--acc);font-size:1.3rem;line-height:1;transition:.2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--muted);font-size:.9rem;margin-top:12px;max-width:72ch}
+
+/* ================= BREADCRUMB / PAGE HERO ================= */
+.crumb{font-size:.78rem;color:var(--muted);margin-bottom:18px;display:flex;gap:8px;flex-wrap:wrap}
+.crumb a{color:var(--acc)}
+.crumb a:hover{text-decoration:underline}
+.page-hero{padding:130px 0 44px}
+.page-hero h1{font-size:clamp(1.9rem,4.2vw,3rem);max-width:20ch}
+.page-hero p{color:var(--muted);margin-top:16px;max-width:70ch}
+
+/* ================= NETWORK RESULTS ================= */
+.match{border:1px solid var(--line);border-radius:var(--r);padding:18px;background:linear-gradient(180deg,var(--panel),var(--panel2));display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start}
+.match .av{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:var(--acc-soft);border:1px solid var(--acc-line);color:var(--acc);font-weight:800}
+.match .info{flex:1;min-width:180px}
+.match .info h4{font-size:.98rem}
+.match .info p{font-size:.83rem;color:var(--muted)}
+
+/* ================= FOOTER ================= */
+footer{border-top:1px solid var(--line);padding:56px 0 30px;position:relative;z-index:2;background:rgba(255,255,255,.015)}
+.fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:36px;margin-bottom:44px}
+.fgrid p{color:var(--muted);font-size:.86rem;margin-top:14px;max-width:34ch}
+.fcol h5{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;margin:0 0 14px}
+.fcol a{display:block;color:var(--muted);font-size:.86rem;padding:5px 0;transition:.15s}
+.fcol a:hover{color:var(--acc)}
+.fbot{border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:.79rem;color:var(--muted)}
+
+/* ================= TOAST ================= */
+#toast{
+  position:fixed;bottom:24px;left:50%;transform:translate(-50%,120px);z-index:200;
+  padding:13px 22px;border-radius:12px;background:rgba(12,20,34,.97);border:1px solid var(--line2);
+  color:#fff;font-size:.87rem;font-weight:600;box-shadow:0 20px 50px -20px #000;
+  transition:transform .35s cubic-bezier(.2,.9,.3,1.4);display:flex;align-items:center;gap:10px;max-width:90vw;
+}
+#toast.show{transform:translate(-50%,0)}
+#toast .dot{width:9px;height:9px;border-radius:50%;background:conic-gradient(#ff4d4d,#ffb84d,#4dff9e,#4dd8ff,#7a4dff,#ff4dd2,#ff4d4d);animation:rgb 6s linear infinite}
+
+/* ================= SEARCH ================= */
+.search{
+  display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:99px;
+  border:1px solid var(--line2);background:rgba(255,255,255,.05);margin-bottom:18px;
+}
+.search input{flex:1;background:none;border:0;outline:none;color:var(--text);font-size:.92rem;font-family:inherit}
+.search svg{color:var(--muted)}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width:980px){
+  .fgrid{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .dash-body{grid-template-columns:1fr}
+  .dash-side{display:flex;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:10px}
+  .dash-side button{width:auto;white-space:nowrap}
+  .kpis{grid-template-columns:1fr 1fr}
+  .pgrid{grid-template-columns:1fr}
+  .row2{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  .navlinks{
+    position:fixed;top:74px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;
+    padding:12px 20px 22px;background:rgba(5,7,13,.98);backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--line);transform:translateY(-150%);transition:.32s;
+  }
+  .navlinks.open{transform:translateY(0)}
+  .navlinks a{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.95rem}
+  .nav-actions{margin-left:auto}
+  .burger{display:flex}
+  .section{padding:64px 0}
+  .hero{padding:130px 0 60px}
+  .page-hero{padding:110px 0 34px}
+}
+@media (max-width:560px){
+  .stats{grid-template-columns:1fr 1fr}
+  .fgrid{grid-template-columns:1fr}
+  form.panel,.panel-box{padding:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<!-- ================= HEADER ================= -->
+<header id="header">
+  <div class="wrap nav">
+    <a href="#/" class="logo" aria-label="Qorino Industrial home">
+      <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ff8f35"><animate attributeName="stop-color" values="#ff8f35;#4dd8ff;#a78bfa;#34d399;#ff8f35" dur="9s" repeatCount="indefinite"/></stop>
+            <stop offset="100%" stop-color="#f2600c"><animate attributeName="stop-color" values="#f2600c;#7a4dff;#f472b6;#22d3ee;#f2600c" dur="9s" repeatCount="indefinite"/></stop>
+          </linearGradient>
+        </defs>
+        <path d="M32 3 56 16.5v31L32 61 8 47.5v-31L32 3Z" fill="none" stroke="url(#lg)" stroke-width="2.6" stroke-linejoin="round"/>
+        <circle cx="32" cy="32" r="12.5" fill="none" stroke="url(#lg)" stroke-width="2.6"/>
+        <path d="M38.5 38.5 47 47" stroke="url(#lg)" stroke-width="3.2" stroke-linecap="round"/>
+        <circle cx="32" cy="32" r="4.2" fill="url(#lg)"/>
+      </svg>
+      <span class="logo-txt"><strong>QORINO</strong><small>INDUSTRIAL</small></span>
+    </a>
+
+    <nav class="navlinks" id="navlinks">
+      <a href="#/service/0">Services</a>
+      <a href="#/modules">Modules</a>
+      <a href="#/platform">Platform</a>
+      <a href="#/process/1">How it works</a>
+      <a href="#/network/owners">Network</a>
+      <a href="#/pricing">Pricing</a>
+      <a href="#/faq">FAQ</a>
+    </nav>
+
+    <div class="nav-actions" id="navActions"></div>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ================= APP VIEW ================= -->
+<main id="view"></main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a href="#/" class="logo" style="margin-bottom:4px">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M32 3 56 16.5v31L32 61 8 47.5v-31L32 3Z" fill="none" stroke="url(#lg)" stroke-width="2.6" stroke-linejoin="round"/>
+            <circle cx="32" cy="32" r="12.5" fill="none" stroke="url(#lg)" stroke-width="2.6"/>
+            <path d="M38.5 38.5 47 47" stroke="url(#lg)" stroke-width="3.2" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="4.2" fill="url(#lg)"/>
+          </svg>
+          <span class="logo-txt"><strong>QORINO</strong><small>INDUSTRIAL</small></span>
+        </a>
+        <p>Machinery solutions and industrial technology — technical support, software, engineering management, performance, energy, AI, procurement and a verified service network.</p>
+      </div>
+      <div class="fcol">
+        <h5>Services</h5>
+        <a href="#/service/0">Technical Support</a>
+        <a href="#/service/1">Industrial Software</a>
+        <a href="#/service/2">Engineering Management</a>
+        <a href="#/service/3">Machinery Intelligence</a>
+        <a href="#/service/4">Service Network</a>
+      </div>
+      <div class="fcol">
+        <h5>Company</h5>
+        <a href="#/modules">Platform Modules</a>
+        <a href="#/platform">Platform</a>
+        <a href="#/process/1">How it works</a>
+        <a href="#/network/owners">Service Network</a>
+        <a href="#/pricing">Pricing</a>
+        <a href="#/faq">FAQ</a>
+      </div>
+      <div class="fcol">
+        <h5>Contact</h5>
+        <a href="#/demo">Request a demo</a>
+        <a href="#/contact">Contact us</a>
+        <a href="mailto:hello@qorinoindustrial.com">hello@qorinoindustrial.com</a>
+        <a href="#/network/providers">Join as engineer / vendor</a>
+        <a href="#/login">Log in</a>
+        <a href="#/signup">Sign up</a>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© <span id="year"></span> Qorino Industrial. All rights reserved.</span>
+      <span>Built for uptime.</span>
+    </div>
+  </div>
+</footer>
+
+<div id="toast"><span class="dot"></span><span id="toastMsg"></span></div>
+
+<script>
+/* ============================================================
+   1. DATA — 6 GROUPS, 60 MODULES
+   ============================================================ */
+const GROUPS = [
+  {n:'Maintenance & Operations', h:24,  d:'Keep every asset on a rhythm — planning, breakdowns, spares and dispatch.'},
+  {n:'Support, Knowledge & Training', h:192, d:'Manuals, error codes, remote help and training for the people who run the machines.'},
+  {n:'Performance & Energy Optimization', h:96, d:'OEE, utilization, utilities and the energy decisions that follow.'},
+  {n:'Machinery Management & Business Operations', h:268, d:'Assets, budgets, contracts, compliance and management reporting.'},
+  {n:'Advanced Industrial AI & Automation', h:322, d:'Digital twins, signal AI, vision, robotics and reliability knowledge.'},
+  {n:'Machinery Procurement & Supply Chain', h:160, d:'Source parts, compare suppliers, track imports and verify authenticity.'}
+];
+
+/* [id, group, tag, title, description, features[[title, desc]...]] */
+const RAW = [
+/* ---------- GROUP 0 ---------- */
+['maintenance-management-saas',0,'SaaS','Maintenance Management SaaS',
+ 'Calendar-based planning with work orders, automated alerts and preventive schedules that keep every asset on a rhythm.',
+ [['Maintenance calendar','Plan and view preventive and corrective work by asset, line and site.'],
+  ['Work orders','Create, assign, prioritise and close work orders with full history.'],
+  ['Automated alerts','Due-date, overdue and escalation alerts routed to the right owner.'],
+  ['Preventive schedules','Interval, runtime and condition-based triggers for every asset.'],
+  ['Recurring tasks','Repeatable task templates with checklists and required parts.'],
+  ['Service history log','A permanent, searchable record of every maintenance action.']]],
+
+['breakdown-intelligence',0,'Analytics','Breakdown Intelligence',
+ 'Complete failure history with root-cause analysis and repeat-failure detection so the same breakdown never happens twice.',
+ [['Failure history','Every breakdown captured with symptom, cause and fix.'],
+  ['Root cause analysis','Structured 5-why and fault-tree capture per event.'],
+  ['Repeat failure detection','Automatic flagging of assets that fail the same way again.'],
+  ['MTBF and MTTR','Reliability metrics computed per asset, line and site.'],
+  ['Downtime timeline','Visual reconstruction of the stoppage from first alarm to restart.'],
+  ['Corrective actions','Track actions through to closure with owners and due dates.']]],
+
+['predictive-maintenance-ai',0,'AI','Predictive Maintenance AI',
+ 'Sensor-driven anomaly detection that flags degradation before failure and converts signals into prioritised actions.',
+ [['Sensor anomaly detection','Unsupervised models learn normal behaviour and flag deviation.'],
+  ['Degradation tracking','Trend curves show how fast an asset is moving off baseline.'],
+  ['Failure prediction','Probability of failure within a configurable horizon.'],
+  ['Remaining useful life','Estimated hours or cycles left before intervention is needed.'],
+  ['Alert prioritisation','Ranked by risk, production impact and cost of downtime.'],
+  ['Model accuracy tracking','Precision and recall monitored so trust is earned, not assumed.']]],
+
+['spare-parts-forecasting',0,'AI','Spare Parts Forecasting',
+ 'Demand forecasting that keeps critical parts in stock, cuts emergency orders and frees cash tied in slow inventory.',
+ [['Demand forecasting','Forecast per part from history, seasonality and machine plan.'],
+  ['Criticality-based stocking','Stock levels set by production impact, not just usage.'],
+  ['Reorder point tuning','Suggested min/max and reorder points recalculated continuously.'],
+  ['Obsolescence risk','Flags slow movers and parts tied to retiring machines.'],
+  ['Seasonal patterns','Learns recurring spikes so peak season is not a surprise.'],
+  ['Stockout cost analysis','Shows what an out-of-stock part actually costs in downtime.']]],
+
+['machine-health-dashboard',0,'Dashboard','Machine Health Dashboard',
+ 'A single condition view across the whole fleet — health scores, temperatures, vibration and utilization.',
+ [['Fleet health scores','One number per asset, comparable across lines and sites.'],
+  ['Condition trends','Vibration, temperature and current plotted over time.'],
+  ['Utilization view','Running hours versus available hours per machine.'],
+  ['Asset drill-down','Click any machine to open its full condition record.'],
+  ['Shift comparison','Compare health and output between shifts and operators.'],
+  ['Threshold configuration','Warning and critical bands set per machine type.']]],
+
+['maintenance-cost-analysis',0,'Reporting','Maintenance Cost Analysis',
+ 'Cost-per-machine reporting that shows where money actually goes — labour, parts, downtime and external services.',
+ [['Cost per machine','All maintenance spend allocated to the asset that caused it.'],
+  ['Labour vs parts split','See whether cost is driven by people or components.'],
+  ['Downtime cost','Production loss attributed alongside the direct repair spend.'],
+  ['Budget vs actual','Live comparison against the approved maintenance budget.'],
+  ['External services','Track spend with OEMs, contractors and service vendors.'],
+  ['Cost trends','Month-on-month and year-on-year movement per asset.']]],
+
+['technician-dispatch-platform',0,'Network','Technician Dispatch Platform',
+ 'Verified engineer matching by skill, region and availability — dispatch the right person the first time.',
+ [['Verified engineer matching','Match by machine type, brand and fault category.'],
+  ['Skill and region filter','Only engineers qualified and local are surfaced.'],
+  ['Availability calendar','Live availability so dispatch is realistic, not optimistic.'],
+  ['Dispatch confirmation','Accept, decline and arrival tracking for every job.'],
+  ['Job completion evidence','Photos, checklists and sign-off captured on site.'],
+  ['Rating and review','Every job scored so the network improves over time.']]],
+
+['service-contract-manager',0,'SaaS','Service Contract Manager',
+ 'Contract tracking with renewal reminders, SLA visibility and coverage checks for every machine and vendor.',
+ [['Contract register','Every service contract in one searchable place.'],
+  ['Renewal reminders','Advance alerts before anything lapses silently.'],
+  ['SLA tracking','Response and resolution times measured against the promise.'],
+  ['Coverage checks','Instantly see whether a machine is covered for a given fault.'],
+  ['Vendor obligations','Scope, exclusions and penalties recorded per contract.'],
+  ['Document vault','Signed contracts, amendments and certificates attached.']]],
+
+['machine-lifecycle',0,'Decision','Machine Lifecycle',
+ 'Repair-versus-replace analysis grounded in real cost, downtime and reliability data.',
+ [['Repair vs replace','Side-by-side economics for keeping or replacing the asset.'],
+  ['Lifecycle cost model','Purchase, running, maintenance and disposal cost combined.'],
+  ['Residual value','Estimated current worth based on condition and hours.'],
+  ['Replacement planning','Multi-year capital plan for retiring assets.'],
+  ['Capital forecast','Budget impact of the replacement plan over time.'],
+  ['Risk scoring','Production risk of deferring replacement quantified.']]],
+
+['digital-maintenance',0,'Cloud','Digital Maintenance',
+ 'Cloud-based service history for every machine — accessible from the shop floor, the office or a vendor site.',
+ [['Cloud service history','One permanent record regardless of who did the work.'],
+  ['Mobile access','Shop-floor access from phone or tablet.'],
+  ['Photo attachments','Images of the fault and the fix stored against the job.'],
+  ['Work log timeline','Chronological view of everything done to the asset.'],
+  ['Offline capture','Record work without signal and sync when back online.'],
+  ['Vendor sharing','Grant a vendor scoped access to the relevant history.']]],
+
+/* ---------- GROUP 1 ---------- */
+['ai-machinery-manual-assistant',1,'AI','AI Machinery Manual Assistant',
+ 'Ask a question, get the exact answer from every OEM manual in your library — with page citations.',
+ [['Semantic manual search','Ask in plain language, not keyword syntax.'],
+  ['Page-level citations','Every answer points to the exact manual page.'],
+  ['Multi-manual querying','Searches across the full library at once.'],
+  ['Model-specific answers','Answers scoped to the machine you selected.'],
+  ['Saved answers','Bookmark useful answers for the team.'],
+  ['Feedback loop','Thumbs up or down improves retrieval quality.']]],
+
+['machine-error-code-database',1,'Knowledge','Machine Error Code Database',
+ 'Model-specific fault knowledge base — look up a code and get meaning, causes, severity and the fix.',
+ [['Model-specific codes','Codes scoped to make, model and controller.'],
+  ['Meaning and severity','Plain-language meaning plus criticality rating.'],
+  ['Likely causes','Ranked list of probable causes for that code.'],
+  ['Recommended fix','Step-by-step corrective action.'],
+  ['Related parts','Parts commonly replaced for this fault.'],
+  ['Confirmed fixes','Fixes confirmed by other users and engineers.']]],
+
+['remote-troubleshooting-desk',1,'Support','Remote Troubleshooting Desk',
+ 'Tickets, live video support and expert escalation in one desk — close faults without a site visit.',
+ [['Ticketing','Structured tickets with priority, category and owner.'],
+  ['Live video support','Share a camera feed from the shop floor.'],
+  ['Camera and screen share','Engineer sees exactly what the technician sees.'],
+  ['Expert escalation','Escalate to OEM or specialist without leaving the ticket.'],
+  ['Session notes','Everything discussed captured against the ticket.'],
+  ['Resolution log','Searchable record of how each fault was solved.']]],
+
+['industrial-documentation-hub',1,'Secure','Industrial Documentation Hub',
+ 'Secure document management with version control, permissions and a full audit trail.',
+ [['Version control','Every revision stored, nothing silently overwritten.'],
+  ['Role-based access','Read, edit and download rights set per role.'],
+  ['Audit trail','Who accessed or changed what, and when.'],
+  ['Manuals and drawings','OEM manuals, schematics and GA drawings in one place.'],
+  ['Certificates and BOMs','Compliance certificates and bills of material attached.'],
+  ['Fast retrieval','Search by machine, document type or part number.']]],
+
+['maintenance-sop-generator',1,'AI','Maintenance SOP Generator',
+ 'Draft a standard operating procedure from work-order history and manuals — reviewed and signed off by an engineer.',
+ [['Draft from history','Generates a first draft from real completed work orders.'],
+  ['Engineer review workflow','Nothing publishes without qualified sign-off.'],
+  ['Step-by-step structure','Numbered steps with tools, parts and safety notes.'],
+  ['Safety notes','Lockout, PPE and hazard callouts built into the template.'],
+  ['Version publishing','Approved versions published to the shop floor.'],
+  ['Reusable templates','Build a library of SOP patterns per machine family.']]],
+
+['technical-translation-platform',1,'Translation','Technical Translation Platform',
+ 'Multilingual technical translation for manuals, SOPs and safety instructions, reviewed by native technical translators.',
+ [['Multilingual translation','Translate manuals and SOPs into your workforce languages.'],
+  ['Terminology glossary','Consistent technical terms across every document.'],
+  ['Native technical review','Reviewed by translators who know the machinery.'],
+  ['Manuals and SOPs','Built for long-form technical content, not marketing copy.'],
+  ['Safety accuracy','Safety instructions get a stricter review path.'],
+  ['Versioned output','Translations versioned alongside the source document.']]],
+
+['machine-compatibility-checker',1,'Knowledge','Machine Compatibility Checker',
+ 'Model-specific compatibility database — verify a part, tool or software version fits before you buy.',
+ [['Model compatibility','Check any part against a specific machine model.'],
+  ['Part fitment','Fitment records confirm what actually works.'],
+  ['Software versions','Controller and firmware compatibility per machine.'],
+  ['Tooling checks','Confirm tooling fits spindle, taper and control.'],
+  ['Warning flags','Clear warnings where fitment is unverified or excluded.'],
+  ['Verified records','Community and OEM-confirmed compatibility entries.']]],
+
+['plc-diagnostic-report-tool',1,'Diagnostics','PLC Diagnostic Report Tool',
+ 'Read-only log analysis for PLC and controller faults — upload logs and receive a structured report.',
+ [['Read-only log upload','Strictly read-only; nothing is ever written to your controller.'],
+  ['Structured diagnostics','Faults grouped by type, severity and frequency.'],
+  ['Timeline reconstruction','Rebuild the exact sequence of events.'],
+  ['Probable cause','Likely cause ranked from log patterns.'],
+  ['Alarm correlation','See which alarms fired together, not just first.'],
+  ['Exportable report','Download a shareable PDF for the maintenance file.']]],
+
+['remote-engineering-consultation',1,'Support','Remote Engineering Consultation',
+ 'Book an online consultation with a specialist engineer — screen sharing, document review and a written recommendation.',
+ [['Specialist booking','Book by discipline, machine type and availability.'],
+  ['Screen sharing','Walk an engineer through the problem live.'],
+  ['Document review','Engineer reviews drawings and manuals before the call.'],
+  ['Written recommendation','You get the advice in writing afterwards.'],
+  ['Follow-up actions','Actions tracked to closure in the platform.'],
+  ['Session recording','Optional recording for training and reference.']]],
+
+['machinery-training-portal',1,'Training','Machinery Training Portal',
+ 'Training modules and assessments for operators and technicians, assigned and certified per machine and role.',
+ [['Training modules','Machine-specific modules built from your own equipment.'],
+  ['Assessments','Knowledge checks at the end of each module.'],
+  ['Certification','Certificates issued and tracked per person.'],
+  ['Role assignment','Assign by role, machine and site automatically.'],
+  ['Progress tracking','See who is trained, in progress or overdue.'],
+  ['Refresher scheduling','Automatic refresher reminders before certification lapses.']]],
+
+/* ---------- GROUP 2 ---------- */
+['machine-oee-analytics',2,'OEE','Machine OEE Analytics',
+ 'Availability, performance and quality broken out per machine and line — see exactly what is costing you output.',
+ [['Availability','Uptime versus planned production time, per asset.'],
+  ['Performance','Actual output versus ideal cycle time speed.'],
+  ['Quality','Good parts versus total parts produced.'],
+  ['Loss waterfall','Step-by-step view of where OEE is being lost.'],
+  ['Line comparison','Compare machines and lines on a like-for-like basis.'],
+  ['Trend alerts','Get warned when OEE drops beyond a threshold.']]],
+
+['industrial-energy-dashboard',2,'Energy','Industrial Energy Dashboard',
+ 'Energy monitoring and reports at machine, line and plant level — consumption, peak loads and cost allocation.',
+ [['Machine-level consumption','Energy measured per asset, not just per plant.'],
+  ['Peak load tracking','Identify peaks and the assets that create them.'],
+  ['Cost allocation','Energy cost allocated to machines and products.'],
+  ['Per-unit normalization','kWh per unit of production, not raw totals.'],
+  ['Trend reports','Consumption trends by day, week and month.'],
+  ['Baseline benchmark','Compare current performance against a defined baseline.']]],
+
+['compressor-efficiency-advisor',2,'Energy','Compressor Efficiency Advisor',
+ 'Compressor performance analysis — specific power, load behaviour and pressure band losses turned into savings.',
+ [['Specific power','kW per unit of air delivered, the core efficiency metric.'],
+  ['Load/unload behaviour','See how much time is spent unloaded and wasting energy.'],
+  ['Pressure band losses','Quantify the cost of running at higher pressure than needed.'],
+  ['Leak impact estimate','Estimate the energy cost of system leaks.'],
+  ['Savings actions','Prioritised list of actions with estimated savings.'],
+  ['Performance baseline','A fixed baseline to prove improvement over time.']]],
+
+['pump-optimization-software',2,'Energy','Pump Optimization Software',
+ 'Duty point and efficiency analysis for pumps and systems — detect oversizing, throttling losses and the best envelope.',
+ [['Duty point analysis','Where the pump actually operates versus its design point.'],
+  ['Efficiency curve','Pump efficiency at the real operating condition.'],
+  ['Oversizing detection','Flags pumps running far from their best efficiency point.'],
+  ['Throttling losses','Quantifies energy wasted by throttling instead of speed control.'],
+  ['Operating envelope','Recommended operating range for reliability and efficiency.'],
+  ['Saving estimate','Estimated annual energy saving from each recommendation.']]],
+
+['motor-efficiency-advisor',2,'Energy','Motor Efficiency Advisor',
+ 'Motor sizing decision support — load factor, oversizing, replacement economics and efficiency class comparison.',
+ [['Load factor','How heavily each motor is actually loaded in service.'],
+  ['Oversizing detection','Flags motors running well below their efficient band.'],
+  ['Efficiency class comparison','IE2 vs IE3 vs IE4 evaluated side by side.'],
+  ['Replacement economics','Cost of replacement against energy saved.'],
+  ['Payback estimate','Simple payback in months for each option.'],
+  ['Drive-level tracking','Every motor tracked as an individual asset.']]],
+
+['production-bottleneck-analyzer',2,'Performance','Production Bottleneck Analyzer',
+ 'Find the constraint in the line — throughput, buffer and cycle-time analysis reveals where output is lost.',
+ [['Throughput analysis','Output per station per hour, compared.'],
+  ['Buffer and queue view','Where work-in-progress piles up and why.'],
+  ['Cycle time','Actual cycle time against standard per station.'],
+  ['Constraint identification','The single station limiting the whole line.'],
+  ['What-if scenarios','Model the effect of fixing the constraint.'],
+  ['Output loss estimate','Units lost per shift because of the bottleneck.']]],
+
+['machine-utilization-tracker',2,'Performance','Machine Utilization Tracker',
+ 'Utilization reporting by machine, shift and site — idle capacity, underused assets and true running hours.',
+ [['Running vs available','True utilization, not just hours powered on.'],
+  ['Idle capacity','Quantified idle time per asset and shift.'],
+  ['Shift reporting','Utilization compared across shifts and crews.'],
+  ['Site comparison','Which plant is getting more from the same asset type.'],
+  ['Underused asset list','Assets that could take more work without capex.'],
+  ['Utilization trends','Direction of travel over weeks and months.']]],
+
+['downtime-cost-calculator',2,'Cost','Downtime Cost Calculator',
+ 'Loss estimation for every stoppage — lost output, labour, scrap and recovery time.',
+ [['Lost output value','Revenue impact of the units not produced.'],
+  ['Labour cost','Idle labour cost during the stoppage.'],
+  ['Scrap and rework','Material wasted at the point of failure.'],
+  ['Recovery time','Ramp-up loss after the machine restarts.'],
+  ['Per-stoppage estimate','A single financial number per event.'],
+  ['Priority ranking','Repairs ranked by financial impact, not loudness.']]],
+
+['industrial-utility-kpi-dashboards',2,'Utility','Industrial Utility KPI Dashboards',
+ 'Utility KPI dashboards for compressed air, water, steam, gas and electricity — normalized per unit of production.',
+ [['Compressed air','Air consumption and specific power per unit.'],
+  ['Water','Consumption and cost, normalized to output.'],
+  ['Steam','Steam usage and boiler efficiency indicators.'],
+  ['Gas','Gas consumption trends and cost per unit.'],
+  ['Electricity','Total and per-machine electrical consumption.'],
+  ['Per-unit normalization','Every utility expressed per unit of production.']]],
+
+['machine-benchmarking-platform',2,'Benchmark','Machine Benchmarking Platform',
+ 'Compare similar machines across lines, sites or the wider fleet — outliers and best practice surface automatically.',
+ [['Similar machine comparison','Compare like-for-like models and configurations.'],
+  ['Cross-site ranking','See which site runs the same asset best.'],
+  ['Outlier detection','Machines performing far below their peer group.'],
+  ['Best-practice settings','What the best performer does differently.'],
+  ['Performance bands','Define acceptable, good and best-in-class bands.'],
+  ['Improvement targets','Realistic targets derived from your own fleet.']]],
+
+/* ---------- GROUP 3 ---------- */
+['machinery-asset-registry',3,'Asset','Machinery Asset Registry',
+ 'A centralized asset database — serial numbers, specs, location, ownership, documentation and history in one record.',
+ [['Central asset database','Every machine in one authoritative record.'],
+  ['Serial and specs','Make, model, serial, capacity and technical specification.'],
+  ['Location and ownership','Site, line, cost centre and ownership recorded.'],
+  ['Document links','Manuals, drawings and certificates linked to the asset.'],
+  ['Service history','Full maintenance history attached to the machine.'],
+  ['QR and barcode tagging','Scan a tag to open the asset record instantly.']]],
+
+['equipment-investment-planner',3,'Finance','Equipment Investment Planner',
+ 'ROI and payback analysis for machine purchases, retrofits and upgrades, modelled on your real figures.',
+ [['ROI model','Return calculated from your real downtime and output data.'],
+  ['Payback analysis','Months to payback for each investment option.'],
+  ['Cash flow projection','Outflow and benefit over the investment horizon.'],
+  ['Scenario comparison','Compare buying, retrofitting or doing nothing.'],
+  ['Risk adjustment','Conservative, expected and optimistic cases.'],
+  ['Approval pack','Exportable business case for management sign-off.']]],
+
+['factory-maintenance-budgeting',3,'Finance','Factory Maintenance Budgeting',
+ 'Budget planning software for maintenance spend — annual plans, monthly tracking and variance alerts.',
+ [['Annual plan','Build the maintenance budget by site, line and cost centre.'],
+  ['Monthly tracking','Actual spend tracked against the plan every month.'],
+  ['Committed vs actual','See committed spend before the invoice arrives.'],
+  ['Variance alerts','Warnings before a cost centre overspends.'],
+  ['Cost centre split','Budgets separated by department and responsibility.'],
+  ['Forecast roll-forward','Year-end forecast updated as the year progresses.']]],
+
+['equipment-project-management',3,'Projects','Equipment Project Management',
+ 'Milestone tracking for installs, overhauls and line upgrades — tasks, dependencies, owners and slippage.',
+ [['Milestone tracking','Key dates for install, commissioning and handover.'],
+  ['Task dependencies','Sequence tasks so nothing is started too early.'],
+  ['Owner assignment','Every task has one accountable owner.'],
+  ['Slippage alerts','Early warning when a milestone will be missed.'],
+  ['Budget tracking','Project spend against the approved budget.'],
+  ['Handover checklist','Structured completion checklist before sign-off.']]],
+
+['machinery-warranty-manager',3,'Warranty','Machinery Warranty Manager',
+ 'Warranty and claim tracking per machine and component — expiry reminders, claim status and recovered value.',
+ [['Warranty register','Every warranty recorded per machine and component.'],
+  ['Expiry reminders','Advance warnings before cover ends.'],
+  ['Claim tracking','Every claim followed from submission to settlement.'],
+  ['Recovered value','Total value recovered from warranty claims.'],
+  ['Component-level cover','Different cover periods for different components.'],
+  ['Document storage','Warranty certificates and claim evidence attached.']]],
+
+['machinery-compliance-tracker',3,'Compliance','Machinery Compliance Tracker',
+ 'Compliance scheduling for inspections, certifications and statutory checks, with evidence and escalation.',
+ [['Inspection scheduling','Recurring inspections scheduled automatically.'],
+  ['Certification register','Every certificate recorded with its expiry.'],
+  ['Statutory checks','Regulatory obligations tracked per machine type.'],
+  ['Owner assignment','Each obligation has a named responsible person.'],
+  ['Evidence storage','Inspection reports and certificates stored as evidence.'],
+  ['Overdue escalation','Escalation path when something passes its due date.']]],
+
+['industrial-service-crm',3,'CRM','Industrial Service CRM',
+ 'A service CRM built for machine owners and service teams — customers, enquiries, quotes and follow-ups.',
+ [['Customer records','Every customer and site in one place.'],
+  ['Service enquiries','Inbound requests logged and assigned.'],
+  ['Quotes','Build and send quotes with parts and labour.'],
+  ['Follow-ups','Automatic reminders so nothing goes cold.'],
+  ['Satisfaction tracking','Post-service feedback captured per job.'],
+  ['Activity timeline','Every call, email and visit in one thread.']]],
+
+['equipment-resale-valuation',3,'Asset','Equipment Resale Valuation',
+ 'Condition-based valuation support for trade-ins and disposals, combining service history and market comparables.',
+ [['Condition-based valuation','Value driven by actual condition, not age alone.'],
+  ['Service history weighting','Well-maintained machines valued accordingly.'],
+  ['Running hours','Hours used as a core valuation input.'],
+  ['Market comparables','Recent comparable sales used as a reference.'],
+  ['Trade-in support','Valuation ready for trade-in negotiation.'],
+  ['Disposal record','Documented disposal for audit and asset closure.']]],
+
+['machinery-fleet-dashboard',3,'Fleet','Machinery Fleet Dashboard',
+ 'Multi-site asset reporting in one view — machine counts, health scores, uptime and cost consolidated.',
+ [['Multi-site view','Every plant, warehouse and site in one dashboard.'],
+  ['Machine counts','Asset population by site and machine type.'],
+  ['Health by site','Average health score per location.'],
+  ['Uptime rollup','Availability aggregated up from machine to site.'],
+  ['Cost consolidation','Maintenance and energy cost by site.'],
+  ['Site ranking','Sites ranked so attention goes where it matters.']]],
+
+['industrial-kpi-reporting',3,'Reporting','Industrial KPI Reporting',
+ 'Automated management reporting — scheduled KPI packs for directors and plant managers.',
+ [['Scheduled KPI packs','Reports generated and delivered on a schedule.'],
+  ['Director dashboards','Executive-level view without operational noise.'],
+  ['PDF export','Board-ready PDF output.'],
+  ['Custom KPI sets','Choose which KPIs matter to each audience.'],
+  ['Benchmark comparison','Performance against baseline and peers.'],
+  ['Distribution list','Automatic distribution to the right people.']]],
+
+/* ---------- GROUP 4 ---------- */
+['industrial-digital-twin',4,'Simulation','Industrial Digital Twin',
+ 'A simulation-based model of your line — test changes against modelled throughput, energy and risk before the real plant.',
+ [['Line simulation','A working model of the line and its constraints.'],
+  ['Speed scenarios','Model the effect of running faster or slower.'],
+  ['Maintenance deferral','See the risk of postponing planned maintenance.'],
+  ['Throughput modelling','Predicted output under each scenario.'],
+  ['Energy modelling','Predicted energy consumption under each scenario.'],
+  ['Risk scoring','A clear risk score per scenario before you commit.']]],
+
+['vibration-fault-ai',4,'AI','Vibration Fault AI',
+ 'Signal analysis software for vibration data — bearing defects, imbalance, misalignment and looseness from raw spectra.',
+ [['Signal analysis','FFT and envelope analysis on raw vibration data.'],
+  ['Bearing defect frequencies','BPFO, BPFI, BSF and FTF matched against known faults.'],
+  ['Imbalance detection','Mass imbalance identified from the 1x harmonic.'],
+  ['Misalignment','Shaft misalignment patterns detected in the spectrum.'],
+  ['Looseness','Mechanical looseness flagged from harmonic behaviour.'],
+  ['Spectrum reporting','Exportable spectrum plots for the maintenance file.']]],
+
+['thermal-anomaly-detection',4,'Vision','Thermal Anomaly Detection',
+ 'Thermal image analytics that flag hot bearings, blocked cooling, loose connections and insulation faults.',
+ [['Thermal image analytics','Automated analysis of thermal camera sweeps.'],
+  ['Hot bearing detection','Bearings running above expected temperature flagged.'],
+  ['Cooling blockage','Restricted cooling identified from temperature patterns.'],
+  ['Loose connections','Electrical hot spots detected on panels and terminals.'],
+  ['Insulation faults','Thermal signatures of failing insulation caught early.'],
+  ['Trend comparison','Compare against the same asset on previous sweeps.']]],
+
+['cnc-tool-wear-prediction',4,'AI','CNC Tool Wear Prediction',
+ 'Tool-life forecasting from spindle load, cutting time and part quality — change tools on predicted wear.',
+ [['Tool-life forecasting','Predicted remaining life per tool and material.'],
+  ['Spindle load analysis','Load signature used as a wear indicator.'],
+  ['Cutting time tracking','Actual cutting minutes accumulated per tool.'],
+  ['Quality correlation','Wear linked to measured part quality drift.'],
+  ['Change scheduling','Tool changes scheduled around predicted wear.'],
+  ['Cost per tool','True cost per tool including scrap and downtime.']]],
+
+['industrial-vision-inspection',4,'Vision','Industrial Vision Inspection',
+ 'Camera-based defect detection on the line — surface flaws, assembly errors and dimensional deviations in-cycle.',
+ [['Camera-based detection','In-line camera inspection at production speed.'],
+  ['Surface flaws','Scratches, dents and porosity detected automatically.'],
+  ['Assembly errors','Missing or wrongly fitted components caught.'],
+  ['Dimensional checks','Key dimensions verified against tolerance.'],
+  ['In-cycle alerts','Alerts raised before defective parts move on.'],
+  ['Image evidence','Every rejection stored with its image.']]],
+
+['industrial-ai-agent',4,'AI','Industrial AI Agent',
+ 'A permission-controlled assistant that reads across your plant data and answers operational questions.',
+ [['Permission control','Each user sees only the data they are entitled to.'],
+  ['Cross-data Q&A','Ask questions spanning assets, work orders and costs.'],
+  ['Approval gates','No action is taken without explicit human approval.'],
+  ['Action log','Every question and action recorded for audit.'],
+  ['Scoped roles','Different capabilities for operator, engineer and manager.'],
+  ['Advisory mode','Out of the box it recommends, it does not act.']]],
+
+['robot-maintenance-analytics',4,'Robotics','Robot Maintenance Analytics',
+ 'Robot reliability dashboard — axis wear, cycle counts, repeatability drift and gripper performance per cell.',
+ [['Axis wear','Wear indicators per robot axis over time.'],
+  ['Cycle counts','Total cycles tracked per robot and per program.'],
+  ['Repeatability drift','Positioning accuracy drift flagged early.'],
+  ['Gripper performance','Grip force and vacuum performance tracked.'],
+  ['Per-cell dashboard','Every robot cell visible on one screen.'],
+  ['Maintenance scheduling','Service scheduled on data, not calendar alone.']]],
+
+['plc-scada-data-intelligence',4,'Diagnostics','PLC / SCADA Data Intelligence',
+ 'Read-only industrial log analytics across PLC and SCADA history — correlate alarms, actions and stoppages.',
+ [['Read-only analytics','Strictly read-only analysis of your control data.'],
+  ['Alarm correlation','Which alarms fire together, not just first.'],
+  ['Operator action timeline','Operator interventions placed on the timeline.'],
+  ['Stoppage reconstruction','Exact reconstruction of each stoppage.'],
+  ['Root-cause timeline','A single timeline showing cause and effect.'],
+  ['Export','Reports exportable for engineering review.']]],
+
+['machine-failure-simulation',4,'Scenario','Machine Failure Simulation',
+ 'Failure scenario simulation — model what happens to output, cost and schedule when a critical asset fails.',
+ [['Failure scenarios','Simulate failure of any critical asset.'],
+  ['Output impact','Predicted production loss from the failure.'],
+  ['Cost impact','Financial impact including downtime and recovery.'],
+  ['Schedule impact','Effect on delivery commitments and plan.'],
+  ['Spares sizing','Right-size critical spares from the simulation.'],
+  ['Buffer sizing','Size buffers to absorb realistic failure durations.']]],
+
+['industrial-reliability-knowledge-graph',4,'Knowledge','Industrial Reliability Knowledge Graph',
+ 'A connected engineering knowledge base linking machines, components, failures, causes and fixes.',
+ [['Connected knowledge base','Entities linked rather than stored in silos.'],
+  ['Machine-component links','See which components belong to which machine.'],
+  ['Failure-cause links','Every failure linked to its confirmed causes.'],
+  ['Fix library','Confirmed fixes attached to failure patterns.'],
+  ['Search across experience','Search the collective experience, not just documents.'],
+  ['Contribution workflow','Engineers contribute and validate new knowledge.']]],
+
+/* ---------- GROUP 5 ---------- */
+['industrial-parts-marketplace',5,'Marketplace','Industrial Parts Marketplace',
+ 'A verified parts sourcing platform — search by machine model or part number and buy from vetted vendors.',
+ [['Verified sourcing','Only vetted vendors can list parts.'],
+  ['Part search','Search by machine model, part number or description.'],
+  ['Stock and lead time','Availability and lead time shown up front.'],
+  ['Vendor ratings','Every vendor rated on delivery and quality.'],
+  ['Quote requests','Request quotes from multiple vendors at once.'],
+  ['Order tracking','Track orders from confirmation to delivery.']]],
+
+['supplier-comparison-engine',5,'Procurement','Supplier Comparison Engine',
+ 'Quotation comparison side by side — price, lead time, warranty, terms and past performance ranked.',
+ [['Side-by-side quotes','All quotations compared in one table.'],
+  ['Price comparison','Landed price including freight and duties.'],
+  ['Lead time','Delivery time compared objectively.'],
+  ['Warranty terms','Warranty length and coverage compared.'],
+  ['Payment terms','Terms weighed, not just headline price.'],
+  ['Performance ranking','Past performance included in the ranking.']]],
+
+['machinery-procurement-copilot',5,'AI','Machinery Procurement Copilot',
+ 'A specification comparison assistant — paste two datasheets and get a structured difference report.',
+ [['Spec comparison','Two machines compared specification by specification.'],
+  ['Datasheet diffing','Differences highlighted automatically.'],
+  ['Capacity and footprint','Throughput and floor space compared.'],
+  ['Controls','Controller, software and integration differences.'],
+  ['Serviceability','Access, spares and service implications noted.'],
+  ['Recommendation summary','A clear summary to support the decision.']]],
+
+['spare-parts-inventory-saas',5,'SaaS','Spare Parts Inventory SaaS',
+ 'Reorder alerts and inventory control across stores and sites — min/max, bin locations and replenishment.',
+ [['Reorder alerts','Alerts when stock hits the reorder point.'],
+  ['Min/max levels','Configurable min/max per part and location.'],
+  ['Bin locations','Physical bin and rack location per part.'],
+  ['Reservations','Parts reserved against open work orders.'],
+  ['Replenishment suggestions','Suggested purchase quantities based on demand.'],
+  ['Multi-store view','All stores and sites visible together.']]],
+
+['equipment-import-manager',5,'Logistics','Equipment Import Manager',
+ 'Shipment and document tracker for imported machinery — bills of lading, customs status and milestones.',
+ [['Shipment tracking','Every imported machine tracked in transit.'],
+  ['Bill of lading','Core shipping documents stored and linked.'],
+  ['Customs status','Clearance status visible per shipment.'],
+  ['Certificates','Certificates of origin and conformity attached.'],
+  ['Delivery milestones','Key dates from dispatch to site delivery.'],
+  ['Document checklist','Never miss a required import document.']]],
+
+['oem-distributor-directory',5,'Directory','OEM Distributor Directory',
+ 'A verified distributor database by brand, region and machine family — authorised partners in one search.',
+ [['Verified distributors','Only verified, authorised distributors listed.'],
+  ['Brand and region filter','Filter by brand, country and region.'],
+  ['Coverage areas','See exactly where each distributor covers.'],
+  ['Contact routes','Direct contact details for each partner.'],
+  ['Authorisation status','Authorisation level shown on every record.'],
+  ['Ratings','Distributors rated by customers and engineers.']]],
+
+['used-machinery-inspection-network',5,'Inspection','Used Machinery Inspection Network',
+ 'Inspection booking and reports for second-hand equipment — independent engineers check condition and history.',
+ [['Inspection booking','Book an inspection before you commit to buy.'],
+  ['Independent engineer','Inspection carried out by an independent engineer.'],
+  ['Condition report','Structured report on mechanical and electrical condition.'],
+  ['Hours verification','Running hours and history verified where possible.'],
+  ['Photo evidence','Photographic evidence attached to the report.'],
+  ['Decision support','Clear recommendation to buy, negotiate or walk away.']]],
+
+['parts-authenticity-tracker',5,'Traceability','Parts Authenticity Tracker',
+ 'Traceability and supplier verification for every part — batch, serial and provenance recorded.',
+ [['Traceability records','Every part traced back to its source.'],
+  ['Batch and serial','Batch and serial numbers captured on receipt.'],
+  ['Provenance check','Provenance verified against supplier records.'],
+  ['Counterfeit flags','Unverified provenance flagged before fitting.'],
+  ['Supplier verification','Supplier status checked for every delivery.'],
+  ['Fitment audit','Audit trail linking fitted parts to machines.']]],
+
+['machinery-rental-platform',5,'Rental','Machinery Rental Platform',
+ 'Equipment rental coordination for peak demand and short-term projects — availability, rates and returns.',
+ [['Availability search','Find rental equipment available when you need it.'],
+  ['Rates and terms','Rates and rental terms shown up front.'],
+  ['Delivery scheduling','Delivery and collection scheduled in the platform.'],
+  ['Return condition','Condition recorded on return.'],
+  ['Damage records','Damage documented with photos and cost.'],
+  ['Contract handling','Rental agreements managed end to end.']]],
+
+['supplier-performance-analytics',5,'Analytics','Supplier Performance Analytics',
+ 'Delivery, defect and service scorecards for every supplier — objective ratings that feed sourcing decisions.',
+ [['Delivery score','On-time delivery measured objectively.'],
+  ['Defect rate','Defect rate per supplier and part category.'],
+  ['Service scorecard','Responsiveness and support quality scored.'],
+  ['Trend history','Performance trend over quarters, not one snapshot.'],
+  ['Sourcing advice','Recommendations for the next sourcing decision.'],
+  ['Renewal input','Data ready for contract renewal negotiations.']]]
+];
+
+const MODS = RAW.map(a => ({id:a[0], g:a[1], t:a[2], n:a[3], d:a[4], f:a[5].map(x=>({t:x[0],d:x[1]}))}));
+const MOD_BY_ID = Object.fromEntries(MODS.map(m=>[m.id,m]));
+
+/* Services map to groups */
+const SERVICES = [
+  {n:'Technical Support', h:192, d:'Human engineering help when a machine stops behaving — fast, documented and traceable.', g:1,
+   bl:['Guided machine fault identification and remote diagnostics','Technical documentation, manuals and BOM management','Engineering support and escalation to OEM specialists']},
+  {n:'Industrial Software', h:24, d:'One system of record for maintenance, stock, assets and production — with AI on top.', g:0,
+   bl:['Maintenance and work-order management','Spare-parts inventory, sourcing and asset registry','Production monitoring with AI anomaly analysis']},
+  {n:'Engineering Management', h:268, d:'Plan the work, coordinate the people, and control the asset from install to retirement.', g:3,
+   bl:['Service scheduling and technician dispatch','Project coordination across sites and contractors','Equipment lifecycle and replacement planning']},
+  {n:'Machinery Intelligence', h:96, d:'Turn machine data into decisions about performance, cost, energy and reliability.', g:2,
+   bl:['Machine performance and OEE analysis','Cost of ownership and reliability modelling','Energy, supplier and spare-part performance scoring']},
+  {n:'Industrial Service Network', h:160, d:'Connect machine owners with the right people — vetted, rated and ready to dispatch.', g:5,
+   bl:['Qualified field engineers and service providers','OEM representatives, distributors and partners','Parts vendors with availability and lead-time visibility']}
+];
+
+/* Dashboard machines */
+const MACHINES = [
+  {id:'CNC-04', name:'CNC-04 · Mazak VCN', site:'Plant A', health:62, st:'w', sub:'Spindle vibration trending up', oee:81.4, avail:94.1, perf:88.2, qual:98.1, kwh:142, cost:4820},
+  {id:'PRS-01', name:'PRS-01 · Hydraulic press', site:'Plant A', health:94, st:'o', sub:'Oil temperature normal', oee:88.9, avail:96.4, perf:92.1, qual:99.2, kwh:64, cost:1960},
+  {id:'PKG-07', name:'PKG-07 · Packaging line', site:'Plant A', health:28, st:'b', sub:'Bearing wear detected by AI', oee:64.2, avail:81.5, perf:79.4, qual:99.1, kwh:98, cost:3140},
+  {id:'CMP-02', name:'CMP-02 · Air compressor', site:'Utilities', health:71, st:'w', sub:'Specific power above target', oee:0, avail:97.2, perf:0, qual:0, kwh:210, cost:740},
+  {id:'CNC-12', name:'CNC-12 · Haas VF', site:'Plant B', health:88, st:'o', sub:'Tool T07 wear at 82%', oee:85.1, avail:95.2, perf:90.4, qual:98.8, kwh:118, cost:2210},
+  {id:'RBT-02', name:'RBT-02 · Robot cell', site:'Plant B', health:91, st:'o', sub:'Repeatability nominal', oee:90.2, avail:98.1, perf:93.6, qual:99.5, kwh:46, cost:1180},
+  {id:'CMP-09', name:'CMP-09 · Screw compressor', site:'Plant B', health:55, st:'w', sub:'Load/unload cycles high', oee:0, avail:93.4, perf:0, qual:0, kwh:176, cost:920},
+  {id:'MIX-03', name:'MIX-03 · Mixer', site:'Warehouse', health:97, st:'o', sub:'All parameters nominal', oee:92.6, avail:99.1, perf:94.8, qual:98.4, kwh:72, cost:610}
+];
+
+/* ============================================================
+   2. UTILITIES
+   ============================================================ */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const hueOf = h => `--h:${h}`;
+
+function toast(msg){
+  const t = $('#toast');
+  $('#toastMsg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(()=>t.classList.remove('show'), 3200);
+}
+
+/* --- Auth --- */
+function getUser(){ try{ return JSON.parse(localStorage.getItem('qorino_user')||'null'); }catch(e){ return null; } }
+function setUser(u){ localStorage.setItem('qorino_user', JSON.stringify(u)); renderAuth(); }
+function logout(){ localStorage.removeItem('qorino_user'); renderAuth(); toast('Logged out'); location.hash = '#/'; }
+
+function renderAuth(){
+  const el = $('#navActions');
+  const u = getUser();
+  if(u){
+    el.innerHTML = `
+      <a href="#/platform" class="user-chip" title="Open dashboard">
+        <span class="avatar">${esc(u.name.charAt(0).toUpperCase())}</span>
+        <span>${esc(u.name.split(' ')[0])}</span>
+      </a>
+      <button class="btn btn-sm btn-ghost" id="logoutBtn">Log out</button>`;
+    $('#logoutBtn').onclick = logout;
+  }else{
+    el.innerHTML = `
+      <a href="#/login" class="btn btn-sm btn-ghost">Log in</a>
+      <a href="#/signup" class="btn btn-sm btn-rgb">Sign up</a>`;
+  }
+}
+
+/* --- Icons (inline svg) --- */
+function ico(paths, size=20){
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+}
+const ICO = {
+  gear:'<circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.14.37.5.63.9.63H21a2 2 0 1 1 0 4h-.09c-.4 0-.76.26-.9.63Z"/>',
+  chart:'<path d="M4 19V5M4 19h16"/><path d="M7.5 15.5l3.5-4.5 3 2.5 4.5-6"/>',
+  book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v18H6.5A2.5 2.5 0 0 1 4 18.5v-13Z"/><path d="M4 17.5h15"/><path d="M8.5 8h6M8.5 11.5h4"/>',
+  bolt:'<path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/>',
+  cube:'<path d="M12 3 4 7.5v9L12 21l8-4.5v-9L12 3Z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/>',
+  chip:'<rect x="7" y="7" width="10" height="10" rx="2"/><path d="M10 4v3M14 4v3M10 17v3M14 17v3M4 10h3M4 14h3M17 10h3M17 14h3"/>',
+  truck:'<path d="M3 7h11v10H3z"/><path d="M14 10h4l3 3v4h-7"/><circle cx="7" cy="18.5" r="1.5"/><circle cx="17.5" cy="18.5" r="1.5"/>',
+  doc:'<path d="M6 3h9l4 4v14H6V3Z"/><path d="M15 3v4h4"/><path d="M9.5 12h6M9.5 15.5h4"/>',
+  shield:'<path d="M12 3l7 3v6c0 4-3 7-7 8-4-1-7-4-7-8V6l7-3Z"/><path d="m9 12 2 2 4-4"/>',
+  users:'<circle cx="9" cy="8" r="3"/><path d="M3.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M17 8.5h4M19 6.5v4"/>',
+  clock:'<circle cx="12" cy="12" r="8"/><path d="M12 12V6"/><path d="m12 12 4.5 3"/>',
+  money:'<circle cx="12" cy="12" r="9"/><path d="M9 15l6-6"/><path d="M10 9h5v5"/>',
+  check:'<path d="m4 12 5 5L20 6"/>',
+  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+  search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/>'
+};
+
+function groupIcon(g){
+  return [ICO.gear, ICO.book, ICO.bolt, ICO.cube, ICO.chip, ICO.truck][g] || ICO.gear;
+}
+
+/* ============================================================
+   3. SHARED VIEW BUILDERS
+   ============================================================ */
+function modCard(m, hue){
+  return `<a class="modcard" href="#/module/${m.id}" style="${hueOf(hue)}">
+    <div class="ico">${ico(groupIcon(m.g),20)}</div>
+    <div style="min-width:0">
+      <h4>${esc(m.n)} <span class="tag">${esc(m.t)}</span></h4>
+      <p>${esc(m.d)}</p>
+    </div>
+    <span class="arrow">→</span>
+  </a>`;
+}
+
+function moduleGrid(list, hue){
+  return `<div class="grid g2">${list.map(m=>modCard(m,hue)).join('')}</div>`;
+}
+
+function groupBlock(gi, limit){
+  const g = GROUPS[gi];
+  const list = MODS.filter(m=>m.g===gi);
+  const show = limit ? list.slice(0,limit) : list;
+  return `<section class="section" style="${hueOf(g.h)}" id="g${gi}">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">${esc(g.n)}</span>
+        <h2>${esc(g.n)}</h2>
+        <p>${esc(g.d)}</p>
+      </div>
+      ${moduleGrid(show, g.h)}
+      <div style="margin-top:22px;display:flex;gap:12px;flex-wrap:wrap">
+        <a href="#/modules/g/${gi}" class="btn btn-ghost">View all ${list.length} modules →</a>
+      </div>
+    </div>
+  </section>`;
+}
+
+function faqBlock(){
+  const faqs = [
+    ['Can Qorino diagnose a fault without being on site?','In most cases yes. Our engineers work from machine data, error logs, photos and sensor readings to identify the likely fault and recommend the next action. If physical intervention is needed, we dispatch a qualified engineer or OEM partner from the network.'],
+    ['Do we have to replace our existing CMMS or ERP?','No. Qorino runs standalone or integrates via API. Many customers start with the service network and intelligence layer on top of their current setup.'],
+    ['How do you stop counterfeit parts entering our stores?','Every part sourced through the marketplace carries a traceability record — batch, serial and supplier provenance. Vendors are verified before listing, and the authenticity tracker flags anything whose provenance cannot be confirmed.'],
+    ['Is the marketplace tied to one vendor?','No. It is multi-vendor and the comparison engine ranks quotations objectively on price, lead time, warranty, terms and past performance. You can also keep buying from existing suppliers and record their performance in Qorino.'],
+    ['How is the Industrial AI Agent kept safe?','The agent is permission-controlled: it reads only the data each user is entitled to, cannot write to any system without explicit approval, and logs every question and action. Out of the box it is advisory.'],
+    ['What does the digital twin actually simulate?','It models your line under changed conditions — different speeds, deferred maintenance, added shifts or an upgrade — and returns modelled throughput, energy and risk. It is a decision tool, not a live control system.'],
+    ['How do vibration, thermal and vision AI work together?','Each analyses a different signal: vibration for rotating-part defects, thermal for heat-related faults, vision for surface and assembly defects. Qorino correlates the findings so one asset fault is one story, not three alerts.'],
+    ['Can Qorino help with budget, ROI and replacement decisions?','Yes. The investment planner models ROI and payback from your actual downtime, energy and output data, while budgeting tracks maintenance spend against plan. Together with lifecycle they turn repair-or-replace into a calculated answer.'],
+    ['Where does the energy data come from?','Existing power meters and sub-meters, PLC registers, or utility bills for a coarser start. The energy dashboard normalizes consumption per machine and per unit of production so savings are measurable.'],
+    ['Is our documentation and machine data secure?','Yes. Role-based access, version control and a full audit trail. Data is encrypted in transit and at rest, and all PLC/SCADA analysis is strictly read-only — we never write to your controllers.'],
+    ['How does the service network get vetted?','Every engineer, service company, OEM partner, distributor, inspector, rental provider, translator and trainer goes through verification of certifications, insurance and references, with ratings visible on their profile.']
+  ];
+  return `<section class="section" style="--h:268" id="faq">
+    <div class="wrap" style="max-width:860px">
+      <div class="section-head">
+        <span class="eyebrow">FAQ</span>
+        <h2>Questions we get asked.</h2>
+      </div>
+      ${faqs.map((f,i)=>`<details ${i===0?'open':''}><summary>${esc(f[0])}</summary><p>${esc(f[1])}</p></details>`).join('')}
+      <div class="panel-box" style="margin-top:28px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+        <div><strong>Still have a question?</strong><p style="color:var(--muted);font-size:.88rem">Talk to an engineer, not a chatbot.</p></div>
+        <a href="#/contact" class="btn btn-rgb">Contact us</a>
+      </div>
+    </div>
+  </section>`;
+}
+
+function pricingBlock(){
+  const plans = [
+    {id:'monitor', n:'Monitor', amt:'$0', per:' / starter', d:'For owners who need visibility and access to the service network.',
+     f:['Up to 25 machines','Asset registry and documentation','Maintenance requests','Network access and vendor quotes','Email support']},
+    {id:'operate', n:'Operate', amt:'$149', per:' / site / month', d:'Full maintenance, inventory and engineering management for one plant.', pop:true,
+     f:['Unlimited machines and users','Work orders, scheduling and dispatch','Spare-parts inventory and reorder alerts','Parts marketplace and supplier comparison','Production monitoring dashboards','OEE analytics and utilization tracking','Warranty, compliance and contract tracking','Error code database and documentation hub','Technical support desk (business hours)','Lifecycle and cost reporting']},
+    {id:'intelligence', n:'Intelligence', amt:'Custom', per:'', d:'Multi-site operations, AI analysis, energy optimization and supply chain.',
+     f:['Everything in Operate','AI manual assistant and SOP generator','Predictive maintenance and spare-part AI','Energy dashboard and utility advisors','Bottleneck analyzer and benchmarking','Investment planner and budgeting','Multi-site fleet and automated KPI packs','Digital twin, vibration, thermal and vision AI','AI agent, robot analytics and knowledge graph','Procurement copilot and supplier scorecards','24/7 priority support + named engineer']}
+  ];
+  return `<section class="section" style="--h:96" id="pricing">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Pricing</span>
+        <h2>Start small. Scale to the whole plant.</h2>
+        <p>Indicative plans — final pricing depends on machine count, sites and integrations.</p>
+      </div>
+      <div class="plans">
+        ${plans.map(p=>`
+          <div class="plan ${p.pop?'pop':''}">
+            ${p.pop?'<span class="badge-pop">MOST POPULAR</span>':''}
+            <h3>${p.n}</h3>
+            <div class="amt">${p.amt}<small>${p.per}</small></div>
+            <p style="color:var(--muted);font-size:.85rem;min-height:42px">${esc(p.d)}</p>
+            <ul>${p.f.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+            <a href="#/plan/${p.id}" class="btn ${p.pop?'btn-rgb':'btn-ghost'} btn-block">${p.pop?'See plan details':'View plan'}</a>
+          </div>`).join('')}
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ============================================================
+   4. PAGES
+   ============================================================ */
+function pageHome(){
+  const stats = [
+    ['24/7','Technical support desk'],['<15 min','Average fault triage'],
+    ['−40%','Unplanned downtime'],['1,200+','Verified engineers & vendors']
+  ];
+  return `
+  <section class="hero">
+    <div class="wrap">
+      <span class="pill"><i></i> Machinery solutions &amp; industrial technology</span>
+      <h1>Keep every machine <span class="grad">running, measured and maintained.</span></h1>
+      <p class="lead">Qorino Industrial is the operating layer for your machinery — fault diagnosis and technical
+      support, maintenance software, engineering management, performance, energy, business intelligence,
+      advanced industrial AI and procurement, backed by a verified network of engineers, OEMs and vendors.</p>
+      <div class="hero-cta">
+        <a href="#/demo" class="btn btn-rgb">Request a demo</a>
+        <a href="#/platform" class="btn btn-ghost">See the platform →</a>
+        <a href="#/modules" class="btn btn-ghost">Browse 60 modules</a>
+      </div>
+      <div class="stats">
+        ${stats.map(s=>`<div class="stat"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="--h:24" id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What we do</span>
+        <h2>Five capabilities. One industrial operating system.</h2>
+        <p>From the first fault signal to the full lifecycle of the asset — Qorino covers the people,
+        the software and the decisions around your machinery.</p>
+      </div>
+      <div class="grid g3">
+        ${SERVICES.map((s,i)=>`
+          <a class="card" href="#/service/${i}" style="${hueOf(s.h)}">
+            <div class="ico">${ico([ICO.gear,ICO.chip,ICO.cube,ICO.chart,ICO.users][i] || ICO.gear,22)}</div>
+            <h3>${esc(s.n)}</h3>
+            <p>${esc(s.d)}</p>
+            <ul>${s.bl.map(b=>`<li>${esc(b)}</li>`).join('')}</ul>
+            <span style="display:inline-flex;align-items:center;gap:7px;margin-top:16px;color:var(--acc);font-weight:700;font-size:.86rem">Explore →</span>
+          </a>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="--h:22">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Platform modules</span>
+        <h2>Sixty modules. One connected industrial stack.</h2>
+        <p>Every module below opens its own page with the features inside it. Turn on what you need
+        and data flows across every module automatically.</p>
+      </div>
+      <div class="grid g3">
+        ${GROUPS.map((g,i)=>`
+          <a class="card" href="#/modules/g/${i}" style="${hueOf(g.h)}">
+            <div class="ico">${ico(groupIcon(i),22)}</div>
+            <h3>${esc(g.n)}</h3>
+            <p>${esc(g.d)}</p>
+            <span style="display:inline-flex;align-items:center;gap:7px;margin-top:16px;color:var(--acc);font-weight:700;font-size:.86rem">
+              ${MODS.filter(m=>m.g===i).length} modules →
+            </span>
+          </a>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  ${groupBlock(0)}
+  ${groupBlock(1)}
+
+  <section class="section" style="--h:24">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">The platform</span>
+        <h2>Your entire machine fleet on one screen.</h2>
+        <p>Assets, work orders, spare parts, production, energy, OEE, budgets, AI fault signals and
+        supply chain in a single workspace — with AI watching for failures you would otherwise miss.</p>
+      </div>
+      <div class="panel-box" style="display:flex;gap:18px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+        <div style="max-width:52ch">
+          <strong style="font-family:'Space Grotesk';font-size:1.05rem">Interactive dashboard</strong>
+          <p style="color:var(--muted);font-size:.9rem;margin-top:6px">Open the live dashboard: switch between
+          Overview, Registry, Maintenance, OEE, Energy, Costs and Suppliers, and click any machine for its full record.</p>
+        </div>
+        <a href="#/platform" class="btn btn-rgb">Open the dashboard →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="--h:268" id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">How it works</span>
+        <h2>From machine data to a closed work order.</h2>
+        <p>Each step below opens its own page with the actual working detail behind it.</p>
+      </div>
+      <div class="steps">
+        ${[
+          ['Register your assets','Import machines, documentation, BOMs and history — or we onboard them with you.'],
+          ['Diagnose &amp; plan','Fault identification, engineering support and a prioritised maintenance plan.'],
+          ['Source &amp; dispatch','Buy the right part from a verified supplier and assign the right engineer.'],
+          ['Analyse &amp; improve','Reliability, cost, OEE, energy, AI, budget and supplier intelligence.']
+        ].map((s,i)=>`
+          <a class="step" href="#/process/${i+1}">
+            <b>${i+1}</b><h4>${s[0]}</h4><p>${s[1]}</p>
+            <span style="display:inline-flex;align-items:center;gap:7px;margin-top:12px;color:var(--acc);font-weight:700;font-size:.83rem">Open step →</span>
+          </a>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="--h:160" id="network">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Industrial service network</span>
+        <h2>A two-sided network built for uptime.</h2>
+        <p>Machine owners get qualified help and verified parts fast. Engineers, OEMs, distributors
+        and vendors get qualified work.</p>
+      </div>
+      <div class="grid g2">
+        <a class="card" href="#/network/owners" style="--h:160">
+          <div class="ico">${ico(ICO.users,22)}</div>
+          <h3>I own machines</h3>
+          <p>Post a fault or a service need and get matched with verified engineers, OEM support and
+          parts suppliers — with scope, price and lead time up front.</p>
+          <span style="display:inline-flex;align-items:center;gap:7px;margin-top:16px;color:var(--acc);font-weight:700;font-size:.86rem">Get matched →</span>
+        </a>
+        <a class="card" href="#/network/providers" style="--h:160">
+          <div class="ico">${ico(ICO.shield,22)}</div>
+          <h3>I service or supply machines</h3>
+          <p>Join as a field engineer, service company, OEM partner, authorised distributor or parts
+          vendor. Receive qualified requests in your region.</p>
+          <span style="display:inline-flex;align-items:center;gap:7px;margin-top:16px;color:var(--acc);font-weight:700;font-size:.86rem">Apply to join →</span>
+        </a>
+      </div>
+      <div class="chips" style="margin-top:26px">
+        ${['Field service engineers','OEM authorised partners','OEM distributors','Parts vendors','Inspection agencies','Logistics partners','Rental providers','Vibration specialists','Thermography','Vision integrators','Robot integrators','Energy auditors','Technical translators','Certified trainers']
+          .map(t=>`<span class="chip">${t}</span>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  ${pricingBlock()}
+  ${faqBlock()}
+
+  <section class="section" style="--h:24">
+    <div class="wrap">
+      <div class="panel-box" style="display:flex;gap:18px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+        <div style="max-width:56ch">
+          <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)">Tell us about your machines.</h2>
+          <p style="color:var(--muted);margin-top:10px">Fleet size, machine types, the problems you want solved.
+          We will come back with a short assessment and a tailored demo.</p>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="#/demo" class="btn btn-rgb">Request a demo</a>
+          <a href="#/contact" class="btn btn-ghost">Contact us</a>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ---------- MODULES DIRECTORY ---------- */
+function pageModules(groupIdx){
+  const all = MODS;
+  return `<section class="page-hero" style="--h:22">
+    <div class="wrap">
+      <div class="crumb"><a href="#/">Home</a> <span>/</span> <span>Modules</span></div>
+      <h1>All 60 platform modules.</h1>
+      <p>Every module opens its own page with the features inside it. Filter by capability area or search by name.</p>
+    </div>
+  </section>
+  <section class="section" style="--h:22;padding-top:10px">
+    <div class="wrap">
+      <div class="search">
+        ${ico(ICO.search,18)}
+        <input id="modSearch" type="search" placeholder="Search modules — e.g. OEE, vibration, warranty, supplier…" />
+      </div>
+      <div class="chips" style="margin-bottom:28px" id="modChips">
+        <button class="chip ${groupIdx==null?'active':''}" data-g="all">All 60</button>
+        ${GROUPS.map((g,i)=>`<button class="chip ${groupIdx==i?'active':''}" data-g="${i}" style="${hueOf(g.h)}">${esc(g.n)}</button>`).join('')}
+      </div>
+      <div id="modResults"></div>
+    </div>
+  </section>`;
+}
+
+function renderModuleResults(g, q){
+  const box = $('#modResults');
+  if(!box) return;
+  const list = MODS.filter(m => (g==='all' || m.g===+g) && (!q || (m.n+' '+m.d+' '+m.t).toLowerCase().includes(q.toLowerCase())));
+  if(!list.length){
+    box.innerHTML = `<div class="panel-box" style="text-align:center"><p style="color:var(--muted)">No modules matched "${esc(q)}".</p>
+      <a href="#/demo" class="btn btn-rgb" style="margin-top:14px">Ask us about a custom module</a></div>`;
+    return;
+  }
+  const byGroup = {};
+  list.forEach(m => (byGroup[m.g] = byGroup[m.g]||[]).push(m));
+  box.innerHTML = Object.keys(byGroup).map(gi=>{
+    const g = GROUPS[gi];
+    return `<div style="margin-bottom:34px" data-h="${g.h}">
+      <div style="display:flex;align-items:baseline;gap:14px;padding-bottom:12px;margin-bottom:16px;border-bottom:1px solid var(--line);${hueOf(g.h)}">
+        <h3 style="font-size:1rem;color:var(--acc)">${esc(g.n)}</h3>
+        <span style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-left:auto">${byGroup[gi].length} modules</span>
+      </div>
+      ${moduleGrid(byGroup[gi], g.h)}
+    </div>`;
+  }).join('');
+}
+
+/* ---------- MODULE DETAIL ---------- */
+function pageModule(id){
+  const m = MOD_BY_ID[id];
+  if(!m) return pageNotFound();
+  const g = GROUPS[m.g];
+  const related = MODS.filter(x=>x.g===m.g && x.id!==m.id).slice(0,4);
+  return `<section class="page-hero" style="--h:${g.h}">
+    <div class="wrap">
+      <div class="crumb"><a href="#/">Home</a> <span>/</span> <a href="#/modules">Modules</a> <span>/</span>
+        <a href="#/modules/g/${m.g}">${esc(g.n)}</a> <span>/</span> <span>${esc(m.n)}</span></div>
+      <span class="tag" style="margin-bottom:14px;display:inline-block">${esc(m.t)}</span>
+      <h1>${esc(m.n)}</h1>
+      <p>${esc(m.d)}</p>
+      <div class="hero-cta">
+        <a href="#/demo?m=${m.id}" class="btn btn-rgb">Request a demo of this module</a>
+        <a href="#/contact?m=${m.id}" class="btn btn-ghost">Ask a question</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="--h:${g.h};padding-top:12px">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Inside this module</span>
+        <h2>What you actually get.</h2>
+        <p>${m.f.length} working capabilities included in ${esc(m.n)}.</p>
+      </div>
+      <div class="grid g3">
+        ${m.f.map((f,i)=>`
+          <div class="card">
+            <div class="ico">${ico(ICO.check,20)}</div>
+            <h3>${esc(f.t)}</h3>
+            <p>${esc(f.d)}</p>
+          </div>`).join('')}
+      </div>
+
+      <div class="panel-box" style="margin-top:34px;display:grid;grid-template-columns:1fr 1fr;gap:26px">
+        <div>
+          <h3 style="font-size:1.1rem;margin-bottom:10px">How it fits together</h3>
+          <p style="color:var(--muted);font-size:.9rem">${esc(m.n)} shares data with the rest of
+          ${esc(g.n)} and the wider Qorino stack — no exports, no re-keying, no silos. Turn it on and
+          the data is already where the next decision needs it.</p>
+          <div class="chips" style="margin-top:16px">
+            ${['Live data','Role-based access','Audit trail','API access','Cloud hosted'].map(t=>`<span class="chip">${t}</span>`).join('')}
+          </div>
+        </div>
+        <div>
+          <h3 style="font-size:1.1rem;margin-bottom:10px">Ready to see it on your data?</h3>
+          <p style="color:var(--muted);font-size:.9rem">We will walk through this module using your
+          machine types and current problems.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+            <a href="#/demo?m=${m.id}" class="btn btn-rgb">Request a demo</a>
+            <a href="#/modules/g/${m.g}" class="btn btn-ghost">All ${esc(g.n)} modules</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="--h:${g.h};padding-top:0">
+    <div class="wrap">
+      <div class="section-head"><span class="eyebrow">Related</span><h2>More in ${esc(g.n)}</h2></div>
+      ${moduleGrid(related, g.h)}
+    </div>
+  </section>`;
+}
+
+/* ---------- SERVICE DETAIL ---------- */
+function pageService(i){
+  const s = SERVICES[i];
+  if(!s) return pageNotFound();
+  const list = MODS.filter(m=>m.g===s.g);
+  return `<section class="page-hero" style="--h:${s.h}">
+    <div class="wrap">
+      <div class="crumb"><a href="#/">Home</a> <span>/</span> <span>Services</span> <span>/</span> <span>${esc(s.n)}</span></div>
+      <span class="eyebrow">Service</span>
+      <h1>${esc(s.n)}</h1>
+      <p>${esc(s.d)}</p>
+      <div class="hero-cta">
+        <a href="#/demo?m=${list[0]?list[0].id:''}" class="btn btn-rgb">Request a demo</a>
+        <a href="#/contact" class="btn btn-ghost">Talk to an engineer</a>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="--h:${s.h};padding-top:12px">
+    <div class="wrap">
+      <div class="section-head"><span class="eyebrow">Included</span><h2>What this capability covers.</h2></div>
+      <div class="grid g3">
+        ${s.bl.map(b=>`<div class="card"><div class="ico">${ico(ICO.check,20)}</div><p style="font-size:.95rem;color:var(--text)">${esc(b)}</p></div>`).join('')}
+      </div>
+    </div>
+  </section>
+  <section class="section" style="--h:${s.h};padding-top:0">
+    <div class="wrap">
+      <div class="section-head"><span class="eyebrow">Modules</span><h2>${list.length} modules power this service.</h2></div>
+      ${moduleGrid(list, s.h)}
+      <div style="margin-top:22px"><a href="#/modules" class="btn btn-ghost">Browse all 60 modules →</a></div>
+    </div>
+  </section>`;
+}
+
+/* ---------- PROCESS PAGES ---------- */
+const PROCESS = [
+  {n:'Register your assets', h:24,
+   d:'Import machines, documentation, BOMs and history — or we onboard them with you.',
+   steps:[
+     ['Create the asset record','Machine make, model, serial, capacity, location and ownership captured in the registry.'],
+     ['Attach documentation','Manuals, drawings, certificates and BOMs linked to the asset.'],
+     ['Import service history','Past work orders and breakdowns imported so the history is not lost.'],
+     ['Tag the machine','Print a QR or barcode so the shop floor can open the record instantly.'],
+     ['Set the baseline','Health thresholds, maintenance intervals and criticality defined per asset.'],
+     ['Invite the team','Roles assigned to operators, technicians, engineers and managers.']
+   ],
+   mods:['machinery-asset-registry','industrial-documentation-hub','digital-maintenance']},
+  {n:'Diagnose & plan', h:192,
+   d:'Fault identification, engineering support and a prioritised maintenance plan.',
+   steps:[
+     ['Identify the fault','Use the error code database, AI manual assistant and remote desk to pin down the fault.'],
+     ['Analyse the signal','Vibration, thermal and PLC log analysis confirm the diagnosis with evidence.'],
+     ['Find the root cause','Breakdown intelligence links the symptom to a confirmed cause.'],
+     ['Prioritise by impact','Downtime cost calculator ranks the work by financial impact.'],
+     ['Plan the intervention','Maintenance calendar and work orders schedule the fix with parts reserved.'],
+     ['Escalate if needed','Remote engineering consultation brings a specialist in without travel.']
+   ],
+   mods:['machine-error-code-database','ai-machinery-manual-assistant','breakdown-intelligence']},
+  {n:'Source & dispatch', h:160,
+   d:'Buy the right part from a verified supplier and assign the right engineer.',
+   steps:[
+     ['Check compatibility','Confirm the part fits the machine model before ordering.'],
+     ['Source from verified vendors','Marketplace shows stock, price and lead time from vetted vendors.'],
+     ['Compare quotations','Supplier comparison engine ranks quotes on price, lead time, warranty and performance.'],
+     ['Verify authenticity','Traceability records confirm batch and provenance before the part is fitted.'],
+     ['Match an engineer','Dispatch platform matches a verified engineer by skill, region and availability.'],
+     ['Track to completion','Shipment tracking and job evidence close the loop with proof.']
+   ],
+   mods:['industrial-parts-marketplace','supplier-comparison-engine','technician-dispatch-platform']},
+  {n:'Analyse & improve', h:96,
+   d:'Reliability, cost, OEE, energy, AI, budget and supplier intelligence.',
+   steps:[
+     ['Measure reliability','MTBF, MTTR and repeat-failure detection show whether it is getting better.'],
+     ['Measure performance','OEE, utilization and bottleneck analysis show where output is lost.'],
+     ['Measure energy','Per-machine and per-unit energy reporting proves savings rather than estimating them.'],
+     ['Measure cost','Cost per machine, budget variance and downtime cost give the financial picture.'],
+     ['Score suppliers','Delivery, defect and service scorecards feed the next sourcing decision.'],
+     ['Report upward','Automated KPI packs deliver the management view on a schedule.']
+   ],
+   mods:['machine-oee-analytics','industrial-energy-dashboard','supplier-performance-analytics']}
+];
+
+function pageProcess(i){
+  const p = PROCESS[i-1];
+  if(!p) return pageNotFound();
+  return `<section class="page-hero" style="--h:${p.h}">
+    <div class="wrap">
+      <div class="crumb"><a href="#/">Home</a> <span>/</span> <a href="#/process/1">How it works</a> <span>/</span> <span>Step ${i}</span></div>
+      <span class="eyebrow">Step ${i} of 4</span>
+      <h1>${esc(p.n)}</h1>
+      <p>${esc(p.d)}</p>
+      <div class="hero-cta">
+        <a href="#/demo" class="btn btn-rgb">Request a demo</a>
+        <a href="#/platform" class="btn btn-ghost">See the platform →</a>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="--h:${p.h};padding-top:12px">
+    <div class="wrap">
+      <div class="section-head"><span class="eyebrow">What happens</span><h2>Inside this step.</h2></div>
+      <div class="grid g3">
+        ${p.steps.map((s,idx)=>`
+          <div class="card">
+            <div class="ico">${ico(ICO.check,20)}</div>
+            <h3>${esc(s[0])}</h3>
+            <p>${esc(s[1])}</p>
+          </div>`).join('')}
+      </div>
+      <div class="section-head" style="margin-top:44px"><span class="eyebrow">Modules used</span><h2>Powered by these modules.</h2></div>
+      ${moduleGrid(p.mods.map(id=>MOD_BY_ID[id]).filter(Boolean), p.h)}
+      <div class="panel-box" style="margin-top:28px;display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between;align-items:center">
+        <div><strong>Next step</strong><p style="color:var(--muted);font-size:.88rem">${i<4?'Continue to step '+(i+1)+'.':'You are at the last step — the loop closes and repeats.'}</p></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          ${i>1?`<a href="#/process/${i-1}" class="btn btn-ghost">← Step ${i-1}</a>`:''}
+          ${i<4?`<a href="#/process/${i+1}" class="btn btn-rgb">Step ${i+1} →</a>`:`<a href="#/demo" class="btn btn-rgb">Request a demo</a>`}
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ---------- PLATFORM DASHBOARD ---------- */
+function pagePlatform(){
+  return `<section class="page-hero" style="--h:24">
+    <div class="wrap">
+      <div class="crumb"><a href="#/">Home</a> <span>/</span> <span>Platform</span></div>
+      <h1>Your entire machine fleet on one screen.</h1>
+      <p>Switch between operational views and click any machine to open its full record. This is a
+      working demo of the dashboard — every tab below is live.</p>
+    </div>
+  </section>
+  <section class="section" style="--h:24;padding-top:8px">
+    <div class="wrap">
+      <div class="dash">
+        <div class="dash-top">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <small>app.qorinoindustrial.com / operations</small>
+          <span class="live"><i></i> Live data</span>
+        </div>
+        <div class="dash-body">
+          <div class="dash-side" id="dashSide">
+            <button class="on" data-tab="overview"><i></i> Overview</button>
+            <button data-tab="registry"><i></i> Registry</button>
+            <button data-tab="maintenance"><i></i> Maintenance</button>
+            <button data-tab="oee"><i></i> OEE</button>
+            <button data-tab="energy"><i></i> Energy</button>
+            <button data-tab="costs"><i></i> Costs</button>
+            <button data-tab="suppliers"><i></i> Suppliers</button>
+            <button data-tab="ai"><i></i> AI signals</button>
+          </div>
+          <div class="dash-main" id="dashMain"></div>
+        </div>
+      </div>
+      <div class="panel-box" style="margin-top:22px;display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between;align-items:center">
+        <div><strong>This is a demo workspace</strong><p style="color:var(--muted);font-size:.88rem">Sign up to connect your own machines, or request a guided walkthrough.</p></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a href="#/signup" class="btn btn-rgb">Sign up free</a>
+          <a href="#/demo" class="btn btn-ghost">Request a demo</a>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function machineRow(m){
+  const cls = m.st==='b'?'b':m.st==='w'?'w':'';
+  const badge = m.st==='b'?'badge b-bad':m.st==='w'?'badge b-warn':'badge b-ok';
+  const label = m.st==='b'?'Critical':m.st==='w'?'Watch':'Healthy';
+  return `<div class="mrow" data-machine="${m.id}">
+    <div><div class="nm">${esc(m.name)}</div><div class="sb">${esc(m.sub)}</div></div>
+    <span class="${badge}">${label}</span>
+    <div class="bar"><i class="${cls}" style="width:${m.health}%"></i></div>
+  </div>`;
+}
+
+function dashTab(tab){
+  const box = $('#dashMain');
+  if(!box) return;
+
+  if(tab==='overview'){
+    box.innerHTML = `
+      <div class="kpis">
+        <div class="kpi"><span>Fleet OEE</span><b>84.2%</b><em>▲ 3.1%</em></div>
+        <div class="kpi"><span>Open work orders</span><b>17</b><em>4 overdue</em></div>
+        <div class="kpi"><span>Predicted failures</span><b>3</b><em>next 30 days</em></div>
+        <div class="kpi"><span>Energy / unit</span><b>2.41 kWh</b><em>▼ 7.8%</em></div>
+      </div>
+      <div class="pgrid">
+        <div class="pnl">
+          <div class="pnl-h"><b>Machine health</b><span>last 24 h</span></div>
+          ${MACHINES.map(machineRow).join('')}
+        </div>
+        <div class="pnl">
+          <div class="pnl-h"><b>Alerts &amp; actions</b><span>live</span></div>
+          <div class="al"><i class="b"></i><div>Vibration AI flags CNC-04 bearing defect<span>Signal analysis · 4 min ago · 78% confidence</span></div></div>
+          <div class="al"><i class="w"></i><div>Vision inspection caught 3 defects on PKG-07<span>Vision · 9 min ago · batch held</span></div></div>
+          <div class="al"><i class="w"></i><div>Supplier C delivery score dropped to 64%<span>Suppliers · 12 min ago · review</span></div></div>
+          <div class="al"><i class="w"></i><div>PO-2288 servo drive held at customs<span>Shipments · 25 min ago · docs needed</span></div></div>
+          <div class="al"><i class="w"></i><div>Warranty on CNC-04 spindle expires in 21 days<span>Warranty · 1 h ago</span></div></div>
+          <div class="al"><i class="o"></i><div>Work order #4821 completed by vendor<span>Network · 2 h ago</span></div></div>
+        </div>
+      </div>
+      <div class="pgrid">
+        <div class="pnl">
+          <div class="pnl-h"><b>OEE breakdown</b><span>today</span></div>
+          <div class="crow"><span class="l">Availability</span><span class="v">91.2%</span><div class="cbar"><i style="width:91%"></i></div></div>
+          <div class="crow"><span class="l">Performance</span><span class="v">88.4%</span><div class="cbar"><i style="width:88%"></i></div></div>
+          <div class="crow"><span class="l">Quality</span><span class="v">97.6%</span><div class="cbar"><i style="width:97%"></i></div></div>
+        </div>
+        <div class="pnl">
+          <div class="pnl-h"><b>Energy consumption</b><span>today</span></div>
+          ${MACHINES.slice(0,4).map(m=>`<div class="crow"><span class="l">${esc(m.id)}</span><span class="v">${m.kwh} kWh</span><div class="cbar"><i style="width:${Math.min(100,m.kwh/2.4)}%"></i></div></div>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  if(tab==='registry'){
+    box.innerHTML = `
+      <div class="pnl-h" style="border:1px solid var(--line);border-radius:11px 11px 0 0"><b>Asset registry</b><span>${MACHINES.length} machines</span></div>
+      <div class="pnl" style="border-radius:0 0 11px 11px">
+        ${MACHINES.map(m=>`
+          <div class="mrow" data-machine="${m.id}">
+            <div><div class="nm">${esc(m.name)}</div><div class="sb">${esc(m.site)} · health ${m.health}% · ${m.kwh} kWh/day</div></div>
+            <span class="badge b-ok">Open →</span>
+            <div class="bar"><i style="width:${m.health}%"></i></div>
+          </div>`).join('')}
+      </div>
+      <p class="note" style="text-align:left;margin-top:14px">Click any machine to open its full record.</p>`;
+  }
+
+  if(tab==='maintenance'){
+    box.innerHTML = `
+      <div class="kpis">
+        <div class="kpi"><span>Open</span><b>17</b><em>4 overdue</em></div>
+        <div class="kpi"><span>Due this week</span><b>9</b><em>on schedule</em></div>
+        <div class="kpi"><span>Completed (30d)</span><b>142</b><em>▲ 12</em></div>
+        <div class="kpi"><span>MTTR</span><b>3.4 h</b><em>▼ 0.6 h</em></div>
+      </div>
+      <div class="pnl">
+        <div class="pnl-h"><b>Work orders</b><span>priority order</span></div>
+        ${[
+          ['WO-4821','PKG-07 · Replace gearbox bearing','Critical','b'],
+          ['WO-4822','CNC-04 · Inspect spindle, vibration alert','High','w'],
+          ['WO-4823','CMP-02 · Compressor service, 120 h due','Medium','w'],
+          ['WO-4824','PRS-01 · Annual hydraulic oil change','Low','o'],
+          ['WO-4825','CNC-12 · Tool T07 change at predicted wear','Medium','w']
+        ].map(w=>`<div class="crow"><span class="l">${w[0]} · ${esc(w[1])}</span><span class="v"><span class="badge ${w[3]==='b'?'b-bad':w[3]==='w'?'b-warn':'b-ok'}">${w[2]}</span></span></div>`).join('')}
+      </div>
+      <div class="pgrid" style="margin-top:11px">
+        <div class="pnl">
+          <div class="pnl-h"><b>Maintenance calendar</b><span>this week</span></div>
+          <div class="crow"><span class="l">Mon 14</span><span class="v">2 tasks</span><div class="cbar"><i style="width:30%"></i></div></div>
+          <div class="crow"><span class="l">Tue 15</span><span class="v">1 task</span><div class="cbar"><i style="width:15%"></i></div></div>
+          <div class="crow"><span class="l">Wed 16 · today</span><span class="v">4 tasks</span><div class="cbar"><i style="width:60%"></i></div></div>
+          <div class="crow"><span class="l">Thu 17</span><span class="v">0 tasks</span><div class="cbar"><i style="width:2%"></i></div></div>
+          <div class="crow"><span class="l">Fri 18</span><span class="v">2 tasks</span><div class="cbar"><i style="width:30%"></i></div></div>
+        </div>
+        <div class="pnl">
+          <div class="pnl-h"><b>By machine</b><span>open</span></div>
+          ${MACHINES.slice(0,5).map(m=>`<div class="crow"><span class="l">${esc(m.id)}</span><span class="v">${1+Math.floor(m.health%5)}</span><div class="cbar"><i style="width:${(m.health%5+1)*18}%"></i></div></div>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  if(tab==='oee'){
+    box.innerHTML = `
+      <div class="kpis">
+        <div class="kpi"><span>Fleet OEE</span><b>84.2%</b><em>▲ 3.1%</em></div>
+        <div class="kpi"><span>Availability</span><b>91.2%</b><em>▲ 1.4%</em></div>
+        <div class="kpi"><span>Performance</span><b>88.4%</b><em>▲ 2.2%</em></div>
+        <div class="kpi"><span>Quality</span><b>97.6%</b><em>▲ 0.3%</em></div>
+      </div>
+      <div class="pnl">
+        <div class="pnl-h"><b>OEE by machine</b><span>today</span></div>
+        ${MACHINES.filter(m=>m.oee>0).map(m=>`
+          <div class="crow"><span class="l">${esc(m.name)}</span><span class="v">${m.oee}%</span>
+          <div class="cbar"><i style="width:${m.oee}%"></i></div></div>`).join('')}
+      </div>
+      <div class="pgrid" style="margin-top:11px">
+        <div class="pnl">
+          <div class="pnl-h"><b>Loss waterfall</b><span>CNC-04</span></div>
+          <div class="crow"><span class="l">Availability loss</span><span class="v">5.9%</span><div class="cbar"><i style="width:20%"></i></div></div>
+          <div class="crow"><span class="l">Performance loss</span><span class="v">11.8%</span><div class="cbar"><i style="width:40%"></i></div></div>
+          <div class="crow"><span class="l">Quality loss</span><span class="v">1.9%</span><div class="cbar"><i style="width:8%"></i></div></div>
+        </div>
+        <div class="pnl">
+          <div class="pnl-h"><b>Bottleneck</b><span>line A</span></div>
+          <div class="crow"><span class="l">Constraint station</span><span class="v">PKG-07</span><div class="cbar"><i style="width:88%"></i></div></div>
+          <div class="crow"><span class="l">Output loss / shift</span><span class="v">146 units</span><div class="cbar"><i style="width:60%"></i></div></div>
+          <div class="crow"><span class="l">Buffer at constraint</span><span class="v">high</span><div class="cbar"><i style="width:74%"></i></div></div>
+        </div>
+      </div>`;
+  }
+
+  if(tab==='energy'){
+    box.innerHTML = `
+      <div class="kpis">
+        <div class="kpi"><span>Energy / unit</span><b>2.41 kWh</b><em>▼ 7.8%</em></div>
+        <div class="kpi"><span>Today</span><b>750 kWh</b><em>across 8 assets</em></div>
+        <div class="kpi"><span>Peak load</span><b>142 kW</b><em>14:20</em></div>
+        <div class="kpi"><span>Est. monthly cost</span><b>$9,140</b><em>at current rate</em></div>
+      </div>
+      <div class="pnl">
+        <div class="pnl-h"><b>Consumption by machine</b><span>today</span></div>
+        ${MACHINES.slice().sort((a,b)=>b.kwh-a.kwh).map(m=>`
+          <div class="crow"><span class="l">${esc(m.name)}</span><span class="v">${m.kwh} kWh</span>
+          <div class="cbar"><i style="width:${Math.min(100,m.kwh/2.4)}%"></i></div></div>`).join('')}
+      </div>
+      <div class="pgrid" style="margin-top:11px">
+        <div class="pnl">
+          <div class="pnl-h"><b>Compressor advisor</b><span>CMP-02</span></div>
+          <div class="crow"><span class="l">Specific power</span><span class="v">+9% vs baseline</span><div class="cbar"><i style="width:70%"></i></div></div>
+          <div class="crow"><span class="l">Unloaded run time</span><span class="v">31%</span><div class="cbar"><i style="width:31%"></i></div></div>
+          <div class="crow"><span class="l">Pressure band loss</span><span class="v">~6%</span><div class="cbar"><i style="width:22%"></i></div></div>
+        </div>
+        <div class="pnl">
+          <div class="pnl-h"><b>Utility KPIs</b><span>per unit</span></div>
+          <div class="crow"><span class="l">Compressed air</span><span class="v">0.42 kWh/u</span><div class="cbar"><i style="width:56%"></i></div></div>
+          <div class="crow"><span class="l">Water</span><span class="v">1.8 L/u</span><div class="cbar"><i style="width:34%"></i></div></div>
+          <div class="crow"><span class="l">Gas</span><span class="v">0.11 m³/u</span><div class="cbar"><i style="width:26%"></i></div></div>
+        </div>
+      </div>`;
+  }
+
+  if(tab==='costs'){
+    box.innerHTML = `
+      <div class="kpis">
+        <div class="kpi"><span>Maintenance (30d)</span><b>$11.6k</b><em>▲ 4.2%</em></div>
+        <div class="kpi"><span>Budget used</span><b>82%</b><em>on plan</em></div>
+        <div class="kpi"><span>Downtime cost</span><b>$6.2k</b><em>▼ 11%</em></div>
+        <div class="kpi"><span>Warranty recovered</span><b>$18.4k</b><em>this quarter</em></div>
+      </div>
+      <div class="pnl">
+        <div class="pnl-h"><b>Cost per machine</b><span>30 days</span></div>
+        ${MACHINES.slice().sort((a,b)=>b.cost-a.cost).map(m=>`
+          <div class="crow"><span class="l">${esc(m.name)}</span><span class="v">$${m.cost.toLocaleString()}</span>
+          <div class="cbar"><i style="width:${Math.min(100,m.cost/50)}%"></i></div></div>`).join('')}
+      </div>
+      <div class="pgrid" style="margin-top:11px">
+        <div class="pnl">
+          <div class="pnl-h"><b>Budget by cost centre</b><span>this month</span></div>
+          <div class="crow"><span class="l">Plant A</span><span class="v">$5,240</span><div class="cbar"><i style="width:74%"></i></div></div>
+          <div class="crow"><span class="l">Plant B</span><span class="v">$3,110</span><div class="cbar"><i style="width:44%"></i></div></div>
+          <div class="crow"><span class="l">Warehouse</span><span class="v">$980</span><div class="cbar"><i style="width:14%"></i></div></div>
+        </div>
+        <div class="pnl">
+          <div class="pnl-h"><b>Downtime cost</b><span>by asset</span></div>
+          <div class="crow"><span class="l">PKG-07</span><span class="v">$3,120</span><div class="cbar"><i style="width:88%"></i></div></div>
+          <div class="crow"><span class="l">CNC-04</span><span class="v">$1,940</span><div class="cbar"><i style="width:56%"></i></div></div>
+          <div class="crow"><span class="l">CMP-09</span><span class="v">$1,140</span><div class="cbar"><i style="width:32%"></i></div></div>
+        </div>
+      </div>`;
+  }
+
+  if(tab==='suppliers'){
+    box.innerHTML = `
+      <div class="kpis">
+        <div class="kpi"><span>Verified vendors</span><b>1,200+</b><em>in network</em></div>
+        <div class="kpi"><span>Open quotes</span><b>6</b><em>2 expiring</em></div>
+        <div class="kpi"><span>Parts in transit</span><b>4</b><em>1 customs</em></div>
+        <div class="kpi"><span>Avg delivery score</span><b>87%</b><em>▲ 2%</em></div>
+      </div>
+      <div class="pnl">
+        <div class="pnl-h"><b>Supplier scorecards</b><span>this quarter</span></div>
+        <div class="crow"><span class="l">Vendor A · delivery 96% · defects 0.4%</span><span class="v">A</span><div class="cbar"><i style="width:96%"></i></div></div>
+        <div class="crow"><span class="l">Vendor B · delivery 81% · defects 2.1%</span><span class="v">B</span><div class="cbar"><i style="width:81%"></i></div></div>
+        <div class="crow"><span class="l">Vendor C · delivery 64% · defects 4.8%</span><span class="v">C</span><div class="cbar"><i style="width:64%"></i></div></div>
+      </div>
+      <div class="pnl" style="margin-top:11px">
+        <div class="pnl-h"><b>Inbound parts &amp; shipments</b><span>live</span></div>
+        <div class="crow"><span class="l">PO-2291 · spindle bearing · in transit</span><span class="v">4 days</span><div class="cbar"><i style="width:70%"></i></div></div>
+        <div class="crow"><span class="l">PO-2288 · servo drive · customs hold</span><span class="v">blocked</span><div class="cbar"><i style="width:35%"></i></div></div>
+        <div class="crow"><span class="l">PO-2303 · filter kit · delivered</span><span class="v">verified</span><div class="cbar"><i style="width:100%"></i></div></div>
+        <div class="crow"><span class="l">PO-2296 · gearbox · authenticity check</span><span class="v">pending</span><div class="cbar"><i style="width:50%"></i></div></div>
+      </div>`;
+  }
+
+  if(tab==='ai'){
+    box.innerHTML = `
+      <div class="pnl-h" style="border:1px solid var(--line);border-radius:11px 11px 0 0"><b>AI fault signals</b><span>live models</span></div>
+      <div class="pnl" style="border-radius:0 0 11px 11px">
+        <div class="mrow" data-machine="CNC-04"><div><div class="nm">CNC-04 · spindle bearing</div><div class="sb">Vibration AI · defect frequency detected</div></div><span class="badge b-warn">78%</span><div class="bar"><i class="w" style="width:78%"></i></div></div>
+        <div class="mrow" data-machine="PKG-07"><div><div class="nm">PKG-07 · gearbox</div><div class="sb">Thermal anomaly · 14 °C above baseline</div></div><span class="badge b-warn">64%</span><div class="bar"><i class="w" style="width:64%"></i></div></div>
+        <div class="mrow" data-machine="CNC-12"><div><div class="nm">CNC-12 · tool T07</div><div class="sb">Tool wear prediction · 6 h life remaining</div></div><span class="badge b-bad">6 h</span><div class="bar"><i class="b" style="width:22%"></i></div></div>
+        <div class="mrow" data-machine="RBT-02"><div><div class="nm">RBT-02 · axis 3</div><div class="sb">Robot reliability · repeatability nominal</div></div><span class="badge b-ok">91%</span><div class="bar"><i style="width:91%"></i></div></div>
+      </div>
+      <div class="pgrid" style="margin-top:11px">
+        <div class="pnl">
+          <div class="pnl-h"><b>Digital twin · scenarios</b><span>simulated</span></div>
+          <div class="crow"><span class="l">Defer bearing replacement 7 days</span><span class="v">High risk</span><div class="cbar"><i style="width:85%"></i></div></div>
+          <div class="crow"><span class="l">Increase line speed +8%</span><span class="v">+5.2% output</span><div class="cbar"><i style="width:70%"></i></div></div>
+          <div class="crow"><span class="l">Add second shift</span><span class="v">+18% capacity</span><div class="cbar"><i style="width:55%"></i></div></div>
+        </div>
+        <div class="pnl">
+          <div class="pnl-h"><b>Knowledge graph</b><span>linked entities</span></div>
+          <div class="crow"><span class="l">Bearing failure → causes</span><span class="v">7</span><div class="cbar"><i style="width:60%"></i></div></div>
+          <div class="crow"><span class="l">Confirmed fixes</span><span class="v">24</span><div class="cbar"><i style="width:80%"></i></div></div>
+          <div class="crow"><span class="l">Linked machines</span><span class="v">8</span><div class="cbar"><i style="width:45%"></i></div></div>
+        </div>
+      </div>`;
+  }
+
+  /* machine row click */
+  $$('#dashMain .mrow[data-machine]').forEach(r=>{
+    r.onclick = () => openMachine(r.dataset.machine);
+  });
+}
+
+function openMachine(id){
+  const m = MACHINES.find(x=>x.id===id);
+  if(!m) return;
+  const st = m.st==='b'?'Critical':m.st==='w'?'Watch':'Healthy';
+  const box = $('#dashMain');
+  box.innerHTML = `
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
+      <button class="btn btn-sm btn-ghost" id="backDash">← Back to dashboard</button>
+      <span class="badge ${m.st==='b'?'b-bad':m.st==='w'?'b-warn':'b-ok'}">${st}</span>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><span>Health score</span><b>${m.health}%</b><em>${st}</em></div>
+      <div class="kpi"><span>OEE</span><b>${m.oee?m.oee+'%':'—'}</b><em>${m.oee?'today':'utility asset'}</em></div>
+      <div class="kpi"><span>Energy</span><b>${m.kwh} kWh</b><em>today</em></div>
+      <div class="kpi"><span>Cost (30d)</span><b>$${m.cost.toLocaleString()}</b><em>maintenance</em></div>
+    </div>
+    <div class="pgrid">
+      <div class="pnl">
+        <div class="pnl-h"><b>${esc(m.name)}</b><span>${esc(m.site)}</span></div>
+        <div class="crow"><span class="l">Availability</span><span class="v">${m.avail}%</span><div class="cbar"><i style="width:${m.avail}%"></i></div></div>
+        <div class="crow"><span class="l">Performance</span><span class="v">${m.perf?m.perf+'%':'—'}</span><div class="cbar"><i style="width:${m.perf||0}%"></i></div></div>
+        <div class="crow"><span class="l">Quality</span><span class="v">${m.qual?m.qual+'%':'—'}</span><div class="cbar"><i style="width:${m.qual||0}%"></i></div></div>
+        <div class="crow"><span class="l">Condition note</span><span class="v" style="font-size:.74rem">${esc(m.sub)}</span></div>
+      </div>
+      <div class="pnl">
+        <div class="pnl-h"><b>Recent activity</b><span>last 7 days</span></div>
+        <div class="al"><i class="w"></i><div>Vibration above baseline<span>Signal analysis · 4 min ago</span></div></div>
+        <div class="al"><i class="o"></i><div>Work order #4821 closed<span>Maintenance · 2 h ago</span></div></div>
+        <div class="al"><i class="w"></i><div>Spare part reserved<span>Inventory · 6 h ago</span></div></div>
+        <div class="al"><i class="o"></i><div>Shift handover completed<span>Operations · 1 d ago</span></div></div>
+      </div>
+    </div>
+    <div class="panel-box" style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center">
+      <div><strong>Open the full record</strong><p style="color:var(--muted);font-size:.86rem">This is a demo preview. Sign up to connect real assets.</p></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="#/module/machinery-asset-registry" class="btn btn-ghost btn-sm">Asset registry module</a>
+        <a href="#/demo" class="btn btn-rgb btn-sm">Request a demo</a>
+      </div>
+    </div>`;
+  $('#backDash').onclick = () => dashTab('overview');
+}
+
+/* ---------- NETWORK: OWNERS ---------- */
+function pageNetworkOwners(){
+  return `<section class="page-hero" style="--h:160">
+    <div class="wrap">
+      <div class="crumb"><a href="#/">Home</a> <span>/</span> <a href="#/network/owners">Network</a> <span>/</span> <span>I own machines</span></div>
+      <span class="eyebrow">For machine owners</span>
+      <h1>Get matched with a verified engineer.</h1>
+      <p>Describe the fault, tell us the machine and the urgency, and we will match you with
+      qualified engineers, OEM support and parts suppliers in your region.</p>
+    </div>
+  </section>
+  <section class="section" style="--h:160;padding-top:10px">
+    <div class="wrap" style="display:grid;grid-template-columns:1.1fr .9fr;gap:26px" id="matchLayout">
+      <form class="panel" id="matchForm" novalidate>
+        <h3 style="font-size:1.1rem;margin-bottom:16px">Tell us about the job</h3>
+        <div class="row2">
+          <div class="field"><label for="mName">Your name *</label><input id="mName" placeholder="Jane Doe"/><div class="err">Please enter your name</div></div>
+          <div class="field"><label for="mCompany">Company *</label><input id="mCompany" placeholder="Acme Manufacturing"/><div class="err">Please enter your company</div></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="mEmail">Work email *</label><input id="mEmail" type="email" placeholder="jane@acme.com"/><div class="err">Enter a valid email</div></div>
+          <div class="field"><label for="mPhone">Phone</label><input id="mPhone" placeholder="+1 555 000 0000"/></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="mMachine">Machine type *</label>
+            <select id="mMachine">
+              <option value="">Select machine type</option>
+              <option>CNC machining centre</option><option>Hydraulic press</option><option>Packaging line</option>
+              <option>Air compressor</option><option>Industrial pump</option><option>Electric motor / drive</option>
+              <option>Robot cell</option><option>Conveyor system</option><option>Other</option>
+            </select><div class="err">Please select a machine type</div>
+          </div>
+          <div class="field"><label for="mUrgency">Urgency *</label>
+            <select id="mUrgency">
+              <option value="">Select urgency</option>
+              <option>Machine down — production stopped</option>
+              <option>Degrading — fix within days</option>
+              <option>Planned service</option>
+              <option>Inspection / assessment only</option>
+            </select><div class="err">Please select urgency</div>
+          </div>
+        </div>
+        <div class="field"><label for="mDesc">What is happening? *</label>
+          <textarea id="mDesc" placeholder="Machine model, error codes, symptoms, what you have already tried…"></textarea>
+          <div class="err">Please describe the issue</div>
+        </div>
+        <button type="submit" class="btn btn-rgb btn-block">Find qualified engineers</button>
+        <p class="note">No cost to post. You see scope, price and lead time before committing.</p>
+      </form>
+
+      <div id="matchResults">
+        <div class="panel-box">
+          <div class="ico" style="width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--acc-soft);border:1px solid var(--acc-line);color:var(--acc);margin-bottom:14px">${ico(ICO.users,22)}</div>
+          <h3 style="font-size:1.05rem">What happens next</h3>
+          <ul style="list-style:none;padding:0;margin:14px 0 0;display:grid;gap:12px">
+            ${[['Triage in under 15 minutes','An engineer reviews the fault description and error codes.'],
+               ['Matched to verified engineers','Filtered by machine type, brand, skill and region.'],
+               ['Compare scope and price','You see availability, rate and lead time before committing.'],
+               ['Track the job to completion','Evidence, sign-off and rating captured in the platform.']]
+              .map((s,i)=>`<li style="display:flex;gap:12px"><span style="flex:0 0 auto;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;background:var(--acc-soft);color:var(--acc);font-size:.76rem;font-weight:800">${i+1}</span>
+              <span><strong style="font-size:.92rem">${s[0]}</strong><br><span style="color:var(--muted);font-size:.83rem">${s[1]}</span></span></li>`).join('')}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function runMatch(){
+  const f = $('#matchForm');
+  if(!f) return;
+  const req = [['mName','name'],['mCompany','company'],['mEmail','email'],['mMachine','machine'],['mUrgency','urgency'],['mDesc','desc']];
+  let ok = true;
+  req.forEach(([id])=>{
+    const el = $('#'+id); const field = el.closest('.field');
+    let bad = !el.value.trim();
+    if(id==='mEmail' && el.value.trim() && !/^\S+@\S+\.\S+$/.test(el.value)) bad = true;
+    field.classList.toggle('invalid', bad);
+    if(bad) ok = false;
+  });
+  if(!ok){ toast('Please complete the highlighted fields'); return; }
+
+  const mm = $('#mMachine').value;
+  const eng = [
+    {n:'M. Rahman', s:'CNC & spindle specialist · 12 yrs', r:4.9, d:'8 km', t:'Available today'},
+    {n:'S. Okafor', s:'Hydraulics & pneumatics · 9 yrs', r:4.8, d:'21 km', t:'Available tomorrow'},
+    {n:'L. Fischer', s:'OEM authorised partner · 15 yrs', r:4.7, d:'34 km', t:'Available in 2 days'}
+  ];
+  const results = $('#matchResults');
+  results.innerHTML = `
+    <div class="panel-box" style="margin-bottom:16px;border-color:var(--acc-line)">
+      <strong style="color:var(--acc)">✓ Match complete</strong>
+      <p style="color:var(--muted);font-size:.87rem;margin-top:6px">3 verified engineers matched for
+      <strong style="color:#fff">${esc(mm)}</strong>. Request a dispatch from any of them below.</p>
+    </div>
+    <div style="display:grid;gap:12px">
+      ${eng.map((e,i)=>`
+        <div class="match">
+          <div class="av">${e.n.charAt(0)}</div>
+          <div class="info">
+            <h4>${esc(e.n)} <span class="badge b-ok">Verified</span></h4>
+            <p>${esc(e.s)}</p>
+            <p style="margin-top:6px;font-size:.79rem">★ ${e.r} · ${e.d} away · ${e.t}</p>
+          </div>
+          <button class="btn btn-sm ${i===0?'btn-rgb':'btn-ghost'}" data-dispatch="${esc(e.n)}">Request dispatch</button>
+        </div>`).join('')}
+    </div>
+    <p class="note">This is a demo match. In production, engineers respond with live availability and pricing.</p>`;
+
+  $$('[data-dispatch]').forEach(b=>{
+    b.onclick = () => {
+      b.textContent = 'Request sent ✓';
+      b.disabled = true;
+      b.classList.remove('btn-rgb'); b.classList.add('btn-ghost');
+      toast('Dispatch requested from ' + b.dataset.dispatch);
+    };
+  });
+  toast('3 engineers matched');
+}
+
+/* ---------- NETWORK: PROVIDERS ---------- */
+function pageNetworkProviders(){
+  return `<section class="page-hero" style="--h:160">
+    <div class="wrap">
+      <div class="crumb"><a href="#/">Home</a> <span>/</span> <a href="#/network/providers">Network</a> <span>/</span> <span>I service machines</span></div>
+      <span class="eyebrow">For service providers</span>
+      <h1>Apply to join the network.</h1>
+      <p>Join as a field engineer, service company, OEM partner, authorised distributor, inspector,
+      rental provider or parts vendor. Receive qualified requests in your region and specialisation.</p>
+    </div>
+  </section>
+  <section class="section" style="--h:160;padding-top:10px">
+    <div class="wrap" style="display:grid;grid-template-columns:1.1fr .9fr;gap:26px" id="provLayout">
+      <form class="panel" id="provForm" novalidate>
+        <h3 style="font-size:1.1rem;margin-bottom:16px">Provider application</h3>
+        <div class="row2">
+          <div class="field"><label for="pName">Full name *</label><input id="pName" placeholder="Your name"/><div class="err">Please enter your name</div></div>
+          <div class="field"><label for="pCompany">Company *</label><input id="pCompany" placeholder="Company or sole trader"/><div class="err">Please enter your company</div></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="pEmail">Work email *</label><input id="pEmail" type="email" placeholder="you@company.com"/><div class="err">Enter a valid email</div></div>
+          <div class="field"><label for="pRegion">Region *</label><input id="pRegion" placeholder="City / region you cover"/><div class="err">Please enter your region</div></div>
+        </div>
+        <div class="field"><label for="pType">Provider type *</label>
+          <select id="pType">
+            <option value="">Select type</option>
+            <option>Field service engineer</option>
+            <option>Service company</option>
+            <option>OEM authorised partner</option>
+            <option>Authorised distributor</option>
+            <option>Parts vendor</option>
+            <option>Inspection agency</option>
+            <option>Rental provider</option>
+            <option>Energy auditor / specialist</option>
+            <option>Technical translator / trainer</option>
+          </select><div class="err">Please select a provider type</div>
+        </div>
+        <div class="field"><label for="pSkills">Specialisations *</label>
+          <textarea id="pSkills" placeholder="Machine types, brands, disciplines, certifications…"></textarea>
+          <div class="err">Please describe your specialisations</div>
+        </div>
+        <button type="submit" class="btn btn-rgb btn-block">Submit application</button>
+        <p class="note">We verify certifications, insurance and references before activation.</p>
+      </form>
+
+      <div class="panel-box">
+        <h3 style="font-size:1.05rem;margin-bottom:12px">Verification process</h3>
+        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:14px">
+          ${[['Application review','We check your specialisations against demand in your region.'],
+             ['Credential verification','Certifications, insurance and references are verified.'],
+             ['Profile activation','You appear in matching with a visible verification badge.'],
+             ['Qualified requests','Receive requests matched to your skills and coverage area.'],
+             ['Ratings and growth','Job ratings build your position in the network.']]
+            .map((s,i)=>`<li style="display:flex;gap:12px"><span style="flex:0 0 auto;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;background:var(--acc-soft);color:var(--acc);font-size:.76rem;font-weight:800">${i+1}</span>
+            <span><strong style="font-size:.92rem">${s[0]}</strong><br><span style="color:var(--muted);font-size:.83rem">${s[1]}</span></span></li>`).join('')}
+        </ul>
+        <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line)">
+          <p style="color:var(--muted);font-size:.85rem">Already a member?</p>
+          <a href="#/login" class="btn btn-ghost btn-block" style="margin-top:10px">Log in to your provider account</a>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function runProvider(){
+  const f = $('#provForm'); if(!f) return;
+  const req = ['pName','pCompany','pEmail','pRegion','pType','pSkills'];
+  let ok = true;
+  req.forEach(id=>{
+    const el = $('#'+id); const field = el.closest('.field');
+    let bad = !el.value.trim();
+    if(id==='pEmail' && el.value.trim() && !/^\S+@\S+\.\S+$/.test(el.value)) bad = true;
+    field.classList.toggle('invalid', bad);
+    if(bad) ok = false;
+  });
+  if(!ok){ toast('Please complete the highlighted fields'); return; }
+
+  const name = $('#pName').value.trim();
+  $('#provLayout').innerHTML = `
+    <div class="panel-box" style="grid-column:1/-1;text-align:center;padding:44px 24px">
+      <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;background:rgba(52,211,153,.14);border:1px solid rgba(52,211,153,.4);color:var(--ok)">
+        ${ico(ICO.check,28)}
+      </div>
+      <h2 style="font-size:1.4rem">Application received, ${esc(name.split(' ')[0])}.</h2>
+      <p style="color:var(--muted);margin-top:10px;max-width:60ch;margin-inline:auto">We will verify your credentials
+      and contact you within two business days. You can still explore the platform in the meantime.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px">
+        <a href="#/platform" class="btn btn-rgb">Explore the platform</a>
+        <a href="#/" class="btn btn-ghost">Back to home</a>
+      </div>
+    </div>`;
+  toast('Application submitted');
+}
+
+/* ---------- PRICING PLAN PAGES ---------- */
+const PLAN_DATA = {
+  monitor:{n:'Monitor', amt:'$0', per:' / starter', h:96,
+    d:'For owners who need visibility and access to the service network.',
+    f:['Up to 25 machines','Asset registry and documentation','Maintenance requests','Network access and vendor quotes','Email support'],
+    excl:['Work order automation','Parts marketplace purchasing','Energy and OEE dashboards','AI modules']},
+  operate:{n:'Operate', amt:'$149', per:' / site / month', h:24, pop:true,
+    d:'Full maintenance, inventory and engineering management for one plant.',
+    f:['Unlimited machines and users','Work orders, scheduling and dispatch','Spare-parts inventory and reorder alerts','Parts marketplace and supplier comparison','Production monitoring dashboards','OEE analytics and utilization tracking','Warranty, compliance and contract tracking','Error code database and documentation hub','Technical support desk (business hours)','Lifecycle and cost reporting'],
+    excl:['AI manual assistant and SOP generator','Digital twin and advanced AI','Multi-site fleet consolidation','24/7 priority support']},
+  intelligence:{n:'Intelligence', amt:'Custom', per:'', h:322,
+    d:'Multi-site operations, AI analysis, energy optimization and supply chain.',
+    f:['Everything in Operate','AI manual assistant and SOP generator','Predictive maintenance and spare-part AI','Energy dashboard and utility advisors','Bottleneck analyzer and benchmarking','Investment planner and budgeting','Multi-site fleet and automated KPI packs','Digital twin, vibration, thermal and vision AI','AI agent, robot analytics and knowledge graph','Procurement copilot and supplier scorecards','24/7 priority support + named engineer'],
+    excl:[]}
+};
+
+function pagePlan(id){
+  const p = PLAN_DATA[id];
+  if(!p) return pageNotFound();
+  return `<section class="page-hero" style="--h:${p.h}">
+    <div class="wrap">
+      <div class="crumb"><a href="#/">Home</a> <span>/</span> <a href="#/pricing">Pricing</a> <span>/</span> <span>${esc(p.n)}</span></div>
+      <span class="eyebrow">${p.pop?'Most popular plan':'Plan'}</span>
+      <h1>${esc(p.n)}</h1>
+      <p>${esc(p.d)}</p>
+      <div style="display:flex;align-items:baseline;gap:8px;margin-top:22px">
+        <span style="font-family:'Space Grotesk';font-size:2.6rem">${p.amt}</span>
+        <span style="color:var(--muted)">${esc(p.per)}</span>
+      </div>
+      <div class="hero-cta">
+        <a href="#/signup?plan=${id}" class="btn btn-rgb">${id==='intelligence'?'Talk to sales':'Start with '+p.n}</a>
+        <a href="#/demo?plan=${id}" class="btn btn-ghost">Request a demo</a>
+        <a href="#/pricing" class="btn btn-ghost">Compare plans</a>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="--h:${p.h};padding-top:10px">
+    <div class="wrap" style="display:grid;grid-template-columns:1.2fr .8fr;gap:26px">
+      <div class="panel-box">
+        <h3 style="font-size:1.1rem;margin-bottom:16px">Included in ${esc(p.n)}</h3>
+        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:11px">
+          ${p.f.map(x=>`<li style="display:flex;gap:10px;font-size:.9rem"><span style="color:var(--acc);font-weight:800">✓</span>${esc(x)}</li>`).join('')}
+        </ul>
+        ${p.excl.length?`
+          <h3 style="font-size:1.05rem;margin:26px 0 14px">Not included</h3>
+          <ul style="list-style:none;padding:0;margin:0;display:grid;gap:11px">
+            ${p.excl.map(x=>`<li style="display:flex;gap:10px;font-size:.9rem;color:var(--muted)"><span style="opacity:.6">—</span>${esc(x)}</li>`).join('')}
+          </ul>`:''}
+      </div>
+      <div style="display:grid;gap:16px;align-content:start">
+        <div class="panel-box">
+          <h3 style="font-size:1rem;margin-bottom:10px">Good for</h3>
+          <p style="color:var(--muted);font-size:.88rem">${id==='monitor'?'Small fleets that need visibility and a route to qualified help.':id==='operate'?'A single plant that wants maintenance, inventory and reporting in one place.':'Multi-site operations that need AI, energy optimization, supply chain and dedicated support.'}</p>
+        </div>
+        <div class="panel-box">
+          <h3 style="font-size:1rem;margin-bottom:10px">Onboarding</h3>
+          <p style="color:var(--muted);font-size:.88rem">Asset import, documentation upload and team setup — done with you, typically inside two weeks.</p>
+        </div>
+        <div class="panel-box">
+          <h3 style="font-size:1rem;margin-bottom:10px">Questions?</h3>
+          <p style="color:var(--muted);font-size:.88rem">Talk to an engineer about your fleet size and integrations.</p>
+          <a href="#/contact" class="btn btn-ghost btn-block" style="margin-top:12px">Contact us</a>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ---------- AUTH PAGES ---------- */
+function pageLogin(){
+  return `<section class="page-hero" style="--h:192">
+    <div class="wrap" style="max-width:520px">
+      <div class="crumb"><a href="#/">Home</a> <span>/</span> <span>Log in</span></div>
+      <h1>Welcome back.</h1>
+      <p>Log in to your Qorino workspace.</p>
+    </div>
+  </section>
+  <section class="section" style="--h:192;padding-top:6px">
+    <div class="wrap" style="max-width:520px">
+      <form class="panel" id="loginForm" novalidate>
+        <div class="field"><label for="lEmail">Work email *</label><input id="lEmail" type="email" placeholder="jane@acme.com"/><div class="err">Enter a valid email</div></div>
+        <div class="field"><label for="lPass">Password *</label><input id="lPass" type="password" placeholder="Your password"/><div class="err">Enter your password</div></div>
+        <button type="submit" class="btn btn-rgb btn-block">Log in</button>
+        <p class="note">No account? <a href="#/signup" style="color:var(--acc);font-weight:700">Sign up free</a></p>
+      </form>
+      <div class="panel-box" style="margin-top:16px">
+        <p style="font-size:.83rem;color:var(--muted)">Demo tip: this is a front-end demo — any valid email and any
+        password of 4+ characters will log you in. Your session is stored in this browser only.</p>
+      </div>
+    </div>
+  </section>`;
+}
+
+function runLogin(){
+  const f = $('#loginForm'); if(!f) return;
+  f.onsubmit = e => {
+    e.preventDefault();
+    const email = $('#lEmail'), pass = $('#lPass');
+    let ok = true;
+    const ef = email.closest('.field'), pf = pass.closest('.field');
+    const emailBad = !/^\S+@\S+\.\S+$/.test(email.value.trim());
+    ef.classList.toggle('invalid', emailBad); if(emailBad) ok = false;
+    const passBad = pass.value.trim().length < 4;
+    pf.classList.toggle('invalid', passBad); if(passBad) ok = false;
+    if(!ok) return;
+    const name = email.value.split('@')[0].replace(/[._-]/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+    setUser({name, email:email.value.trim()});
+    toast('Welcome back, ' + name.split(' ')[0]);
+    location.hash = '#/platform';
+  };
+}
+
+function pageSignup(){
+  const params = new URLSearchParams((location.hash.split('?')[1]||''));
+  const plan = params.get('plan') || 'operate';
+  return `<section class="page-hero" style="--h:24">
+    <div class="wrap" style="max-width:560px">
+      <div class="crumb"><a href="#/">Home</a> <span>/</span> <span>Sign up</span></div>
+      <h1>Create your workspace.</h1>
+      <p>Start with the ${esc(plan)} plan. No card required for the trial.</p>
+    </div>
+  </section>
+  <section class="section" style="--h:24;padding-top:6px">
+    <div class="wrap" style="max-width:560px">
+      <form class="panel" id="signupForm" novalidate>
+        <div class="row2">
+          <div class="field"><label for="sName">Full name *</label><input id="sName" placeholder="Jane Doe"/><div class="err">Please enter your name</div></div>
+          <div class="field"><label for="sCompany">Company *</label><input id="sCompany" placeholder="Acme Manufacturing"/><div class="err">Please enter your company</div></div>
+        </div>
+        <div class="field"><label for="sEmail">Work email *</label><input id="sEmail" type="email" placeholder="jane@acme.com"/><div class="err">Enter a valid email</div></div>
+        <div class="row2">
+          <div class="field"><label for="sPass">Password *</label><input id="sPass" type="password" placeholder="4+ characters"/><div class="err">Use at least 4 characters</div></div>
+          <div class="field"><label for="sPlan">Plan</label>
+            <select id="sPlan">
+              <option value="monitor" ${plan==='monitor'?'selected':''}>Monitor — $0</option>
+              <option value="operate" ${plan==='operate'?'selected':''}>Operate — $149/site/month</option>
+              <option value="intelligence" ${plan==='intelligence'?'selected':''}>Intelligence — Custom</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label for="sFleet">Machines in your fleet</label>
+          <select id="sFleet"><option>1–25</option><option>26–100</option><option>101–500</option><option>500+</option></select>
+        </div>
+        <button type="submit" class="btn btn-rgb btn-block">Create workspace</button>
+        <p class="note">Already have an account? <a href="#/login" style="color:var(--acc);font-weight:700">Log in</a></p>
+      </form>
+    </div>
+  </section>`;
+}
+
+function runSignup(){
+  const f = $('#signupForm'); if(!f) return;
+  f.onsubmit = e => {
+    e.preventDefault();
+    const ids = ['sName','sCompany','sEmail','sPass'];
+    let ok = true;
+    ids.forEach(id=>{
+      const el = $('#'+id), field = el.closest('.field');
+      let bad = !el.value.trim();
+      if(id==='sEmail' && el.value.trim() && !/^\S+@\S+\.\S+$/.test(el.value)) bad = true;
+      if(id==='sPass' && el.value.trim().length < 4) bad = true;
+      field.classList.toggle('invalid', bad);
+      if(bad) ok = false;
+    });
+    if(!ok){ toast('Please complete the highlighted fields'); return; }
+    setUser({name:$('#sName').value.trim(), email:$('#sEmail').value.trim(), company:$('#sCompany').value.trim(), plan:$('#sPlan').value});
+    toast('Workspace created — welcome to Qorino');
+    location.hash = '#/platform';
+  };
+}
+
+/* ---------- DEMO PAGE ---------- */
+function pageDemo(){
+  const params = new URLSearchParams((location.hash.split('?')[1]||''));
+  const pre = params.get('m') || params.get('plan') || '';
+  return `<section class="page-hero" style="--h:96">
+    <div class="wrap">
+      <div class="crumb"><a href="#/">Home</a> <span>/</span> <span>Request a demo</span></div>
+      <h1>Request a demo.</h1>
+      <p>Tell us about your fleet and the problems you want solved. We come back with a short
+      assessment and a demo tailored to your operation.</p>
+    </div>
+  </section>
+  <section class="section" style="--h:96;padding-top:8px">
+    <div class="wrap" style="display:grid;grid-template-columns:1.15fr .85fr;gap:26px" id="demoLayout">
+      <form class="panel" id="demoForm" novalidate>
+        <div class="row2">
+          <div class="field"><label for="dName">Full name *</label><input id="dName" placeholder="Jane Doe"/><div class="err">Please enter your name</div></div>
+          <div class="field"><label for="dCompany">Company *</label><input id="dCompany" placeholder="Acme Manufacturing"/><div class="err">Please enter your company</div></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="dEmail">Work email *</label><input id="dEmail" type="email" placeholder="jane@acme.com"/><div class="err">Enter a valid email</div></div>
+          <div class="field"><label for="dPhone">Phone</label><input id="dPhone" placeholder="+1 555 000 0000"/></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="dFleet">Fleet size</label>
+            <select id="dFleet"><option>1–25 machines</option><option>26–100 machines</option><option>101–500 machines</option><option>500+ machines</option></select>
+          </div>
+          <div class="field"><label for="dInterest">Primary interest *</label>
+            <select id="dInterest">
+              <option value="">Select what matters most</option>
+              <optgroup label="Capability areas">
+                ${GROUPS.map((g,i)=>`<option value="${i}">${esc(g.n)}</option>`).join('')}
+              </optgroup>
+              <option value="all">Everything — full platform walkthrough</option>
+            </select><div class="err">Please select an interest</div>
+          </div>
+        </div>
+        <div class="field"><label for="dModule">Specific module (optional)</label>
+          <select id="dModule">
+            <option value="">No specific module</option>
+            ${MODS.map(m=>`<option value="${m.id}" ${pre===m.id?'selected':''}>${esc(m.n)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field"><label for="dMsg">What problems do you want solved?</label>
+          <textarea id="dMsg" placeholder="Machine types, current downtime issues, reporting gaps…"></textarea>
+        </div>
+        <button type="submit" class="btn btn-rgb btn-block">Request demo</button>
+        <p class="note">We reply within one business day. No spam, ever.</p>
+      </form>
+
+      <div class="panel-box">
+        <h3 style="font-size:1.05rem;margin-bottom:12px">What the demo covers</h3>
+        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:13px">
+          ${[['Your machines, your data','We use your machine types and current problems, not a canned dataset.'],
+             ['The modules you care about','Focus on the capabilities that solve your actual bottleneck.'],
+             ['Integrations','How Qorino connects to your existing CMMS, ERP and sensors.'],
+             ['Onboarding plan','What it takes to get live, and how long it realistically takes.'],
+             ['Pricing','A concrete number based on your fleet size and sites.']]
+            .map(s=>`<li><strong style="font-size:.9rem">${s[0]}</strong><br><span style="color:var(--muted);font-size:.83rem">${s[1]}</span></li>`).join('')}
+        </ul>
+        <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--line)">
+          <p style="color:var(--muted);font-size:.85rem">Prefer to explore first?</p>
+          <a href="#/platform" class="btn btn-ghost btn-block" style="margin-top:10px">Open the live dashboard</a>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function runDemo(){
+  const f = $('#demoForm'); if(!f) return;
+  f.onsubmit = e => {
+    e.preventDefault();
+    const req = ['dName','dCompany','dEmail','dInterest'];
+    let ok = true;
+    req.forEach(id=>{
+      const el = $('#'+id), field = el.closest('.field');
+      let bad = !el.value.trim();
+      if(id==='dEmail' && el.value.trim() && !/^\S+@\S+\.\S+$/.test(el.value)) bad = true;
+      field.classList.toggle('invalid', bad);
+      if(bad) ok = false;
+    });
+    if(!ok){ toast('Please complete the highlighted fields'); return; }
+
+    const name = $('#dName').value.trim().split(' ')[0];
+    const mod = $('#dModule').value;
+    $('#demoLayout').innerHTML = `
+      <div class="panel-box" style="grid-column:1/-1;text-align:center;padding:46px 24px">
+        <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;background:rgba(52,211,153,.14);border:1px solid rgba(52,211,153,.4);color:var(--ok)">
+          ${ico(ICO.check,28)}
+        </div>
+        <h2 style="font-size:1.4rem">Request received, ${esc(name)}.</h2>
+        <p style="color:var(--muted);margin-top:10px;max-width:60ch;margin-inline:auto">
+          A Qorino Industrial engineer will contact you within one business day${mod?` with a demo focused on <strong style="color:#fff">${esc(MOD_BY_ID[mod]?MOD_BY_ID[mod].n:'your selected module')}</strong>`:''}.
+        </p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+          <a href="#/platform" class="btn btn-rgb">Explore the dashboard</a>
+          <a href="#/modules" class="btn btn-ghost">Browse modules</a>
+          <a href="#/" class="btn btn-ghost">Back to home</a>
+        </div>
+      </div>`;
+    toast('Demo request sent');
+  };
+}
+
+/* ---------- CONTACT ---------- */
+function pageContact(){
+  const params = new URLSearchParams((location.hash.split('?')[1]||''));
+  const pre = params.get('m') || '';
+  return `<section class="page-hero" style="--h:268">
+    <div class="wrap">
+      <div class="crumb"><a href="#/">Home</a> <span>/</span> <span>Contact</span></div>
+      <h1>Talk to an engineer.</h1>
+      <p>Not a chatbot. Send us your machine types and the problem, and an engineer will come back
+      with a straight answer.</p>
+    </div>
+  </section>
+  <section class="section" style="--h:268;padding-top:8px">
+    <div class="wrap" style="display:grid;grid-template-columns:1.1fr .9fr;gap:26px" id="contactLayout">
+      <form class="panel" id="contactForm" novalidate>
+        <div class="row2">
+          <div class="field"><label for="cName">Full name *</label><input id="cName" placeholder="Jane Doe"/><div class="err">Please enter your name</div></div>
+          <div class="field"><label for="cEmail">Work email *</label><input id="cEmail" type="email" placeholder="jane@acme.com"/><div class="err">Enter a valid email</div></div>
+        </div>
+        <div class="field"><label for="cTopic">Topic *</label>
+          <select id="cTopic">
+            <option value="">Select a topic</option>
+            <option ${pre?'selected':''}>Question about a module</option>
+            <option>Technical support</option>
+            <option>Pricing</option>
+            <option>Integrations</option>
+            <option>Join the service network</option>
+            <option>Something else</option>
+          </select><div class="err">Please select a topic</div>
+        </div>
+        <div class="field"><label for="cModule">Related module (optional)</label>
+          <select id="cModule">
+            <option value="">No specific module</option>
+            ${MODS.map(m=>`<option value="${m.id}" ${pre===m.id?'selected':''}>${esc(m.n)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field"><label for="cMsg">Message *</label>
+          <textarea id="cMsg" placeholder="How can we help?"></textarea><div class="err">Please write a message</div>
+        </div>
+        <button type="submit" class="btn btn-rgb btn-block">Send message</button>
+      </form>
+      <div style="display:grid;gap:16px;align-content:start">
+        <div class="panel-box">
+          <h3 style="font-size:1rem;margin-bottom:10px">Email</h3>
+          <a href="mailto:hello@qorinoindustrial.com" style="color:var(--acc);font-weight:700">hello@qorinoindustrial.com</a>
+        </div>
+        <div class="panel-box">
+          <h3 style="font-size:1rem;margin-bottom:10px">Support desk</h3>
+          <p style="color:var(--muted);font-size:.88rem">+1 (000) 000-0000 · 24/7</p>
+        </div>
+        <div class="panel-box">
+          <h3 style="font-size:1rem;margin-bottom:10px">Faster route</h3>
+          <p style="color:var(--muted);font-size:.88rem">Have a machine down right now? Post it to the network and get matched with a verified engineer.</p>
+          <a href="#/network/owners" class="btn btn-ghost btn-block" style="margin-top:12px">Get matched with an engineer</a>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function runContact(){
+  const f = $('#contactForm'); if(!f) return;
+  f.onsubmit = e => {
+    e.preventDefault();
+    const req = ['cName','cEmail','cTopic','cMsg'];
+    let ok = true;
+    req.forEach(id=>{
+      const el = $('#'+id), field = el.closest('.field');
+      let bad = !el.value.trim();
+      if(id==='cEmail' && el.value.trim() && !/^\S+@\S+\.\S+$/.test(el.value)) bad = true;
+      field.classList.toggle('invalid', bad);
+      if(bad) ok = false;
+    });
+    if(!ok){ toast('Please complete the highlighted fields'); return; }
+    const name = $('#cName').value.trim().split(' ')[0];
+    $('#contactLayout').innerHTML = `
+      <div class="panel-box" style="grid-column:1/-1;text-align:center;padding:46px 24px">
+        <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;background:rgba(52,211,153,.14);border:1px solid rgba(52,211,153,.4);color:var(--ok)">
+          ${ico(ICO.check,28)}
+        </div>
+        <h2 style="font-size:1.35rem">Message sent, ${esc(name)}.</h2>
+        <p style="color:var(--muted);margin-top:10px">An engineer will reply within one business day.</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px">
+          <a href="#/" class="btn btn-ghost">Back to home</a>
+          <a href="#/network/owners" class="btn btn-rgb">Get matched with an engineer</a>
+        </div>
+      </div>`;
+    toast('Message sent');
+  };
+}
+
+/* ---------- FAQ PAGE ---------- */
+function pageFaq(){
+  return `<section class="page-hero" style="--h:268">
+    <div class="wrap">
+      <div class="crumb"><a href="#/">Home</a> <span>/</span> <span>FAQ</span></div>
+      <h1>Questions we get asked.</h1>
+      <p>Straight answers about the platform, security, AI and the service network.</p>
+    </div>
+  </section>
+  ${faqBlock()}`;
+}
+
+/* ---------- 404 ---------- */
+function pageNotFound(){
+  return `<section class="page-hero" style="--h:24">
+    <div class="wrap" style="max-width:640px">
+      <h1>Page not found.</h1>
+      <p>That link does not exist — but everything else does.</p>
+      <div class="hero-cta">
+        <a href="#/" class="btn btn-rgb">Go home</a>
+        <a href="#/modules" class="btn btn-ghost">Browse modules</a>
+        <a href="#/platform" class="btn btn-ghost">Open dashboard</a>
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ============================================================
+   5. ROUTER
+   ============================================================ */
+function parseHash(){
+  const raw = location.hash.replace(/^#\/?/, '');
+  const [pathPart, queryPart] = raw.split('?');
+  const seg = pathPart.split('/').filter(Boolean);
+  const query = Object.fromEntries(new URLSearchParams(queryPart || ''));
+  return {seg, query};
+}
+
+function render(){
+  const {seg, query} = parseHash();
+  const view = $('#view');
+  let html = '';
+  const head = seg[0] || '';
+
+  if(head === '') html = pageHome();
+  else if(head === 'modules') html = pageModules(seg[1]==='g' && seg[2]!=null ? +seg[2] : null);
+  else if(head === 'module') html = pageModule(seg[1]);
+  else if(head === 'service') html = pageService(+seg[1] || 0);
+  else if(head === 'process') html = pageProcess(+seg[1] || 1);
+  else if(head === 'platform') html = pagePlatform();
+  else if(head === 'pricing') html = pagePricingWrapper();
+  else if(head === 'plan') html = pagePlan(seg[1]);
+  else if(head === 'network' && seg[1] === 'owners') html = pageNetworkOwners();
+  else if(head === 'network' && seg[1] === 'providers') html = pageNetworkProviders();
+  else if(head === 'login') html = pageLogin();
+  else if(head === 'signup') html = pageSignup();
+  else if(head === 'demo') html = pageDemo();
+  else if(head === 'contact') html = pageContact();
+  else if(head === 'faq') html = pageFaq();
+  else html = pageNotFound();
+
+  view.innerHTML = html;
+  window.scrollTo({top:0, behavior:'instant' in window ? 'instant' : 'auto'});
+
+  /* ---- page-specific wiring ---- */
+  if(head === 'modules'){
+    const search = $('#modSearch');
+    let curG = seg[1]==='g' && seg[2]!=null ? seg[2] : 'all';
+    renderModuleResults(curG, '');
+    $$('#modChips .chip').forEach(c=>{
+      c.onclick = () => {
+        $$('#modChips .chip').forEach(x=>x.classList.remove('active'));
+        c.classList.add('active');
+        curG = c.dataset.g;
+        renderModuleResults(curG, search ? search.value : '');
+      };
+    });
+    if(search){
+      search.oninput = () => renderModuleResults(curG, search.value);
+    }
+  }
+
+  if(head === 'platform'){
+    $$('#dashSide button').forEach(b=>{
+      b.onclick = () => {
+        $$('#dashSide button').forEach(x=>x.classList.remove('on'));
+        b.classList.add('on');
+        dashTab(b.dataset.tab);
+      };
+    });
+    dashTab('overview');
+  }
+
+  if(head === 'network' && seg[1] === 'owners'){
+    const f = $('#matchForm');
+    if(f) f.onsubmit = e => { e.preventDefault(); runMatch(); };
+  }
+
+  if(head === 'network' && seg[1] === 'providers') runProvider();
+
+  if(head === 'login') runLogin();
+  if(head === 'signup') runSignup();
+  if(head === 'demo') runDemo();
+  if(head === 'contact') runContact();
+
+  /* clear validation on input */
+  $$('.field input, .field select, .field textarea').forEach(el=>{
+    el.addEventListener('input', ()=> el.closest('.field').classList.remove('invalid'));
+    el.addEventListener('change', ()=> el.closest('.field').classList.remove('invalid'));
+  });
+
+  renderAuth();
+}
+
+/* Pricing wrapper (full pricing page) */
+function pagePricingWrapper(){
+  return `<section class="page-hero" style="--h:96">
+    <div class="wrap">
+      <div class="crumb"><a href="#/">Home</a> <span>/</span> <span>Pricing</span></div>
+      <h1>Pricing that scales with your plant.</h1>
+      <p>Three plans, one platform. Every plan includes the service network, the asset registry and
+      the technical support desk. Pick the depth you need.</p>
+    </div>
+  </section>
+  ${pricingBlock()}
+  <section class="section" style="--h:96;padding-top:0">
+    <div class="wrap">
+      <div class="panel-box" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between;align-items:center">
+        <div style="max-width:56ch">
+          <h3 style="font-size:1.1rem">Not sure which plan fits?</h3>
+          <p style="color:var(--muted);font-size:.9rem;margin-top:6px">Tell us your fleet size and the modules you need — we will size it for you.</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a href="#/demo" class="btn btn-rgb">Request a demo</a>
+          <a href="#/contact" class="btn btn-ghost">Contact us</a>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ============================================================
+   6. BACKGROUND CANVAS
+   ============================================================ */
+(function bg(){
+  const c = document.getElementById('bgCanvas');
+  if(!c) return;
+  const ctx = c.getContext('2d');
+  let w, h, pts = [], raf;
+  const N = window.innerWidth < 700 ? 32 : 62;
+
+  function size(){
+    w = c.width = window.innerWidth * devicePixelRatio;
+    h = c.height = window.innerHeight * devicePixelRatio;
+    c.style.width = window.innerWidth + 'px';
+    c.style.height = window.innerHeight + 'px';
+  }
+  function init(){
+    pts = Array.from({length:N}, () => ({
+      x: Math.random()*w, y: Math.random()*h,
+      vx: (Math.random()-.5)*0.25*devicePixelRatio,
+      vy: (Math.random()-.5)*0.25*devicePixelRatio,
+      r: (Math.random()*1.8+0.6)*devicePixelRatio,
+      hue: Math.random()*360
+    }));
+  }
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for(let i=0;i<pts.length;i++){
+      const p = pts[i];
+      p.x += p.vx; p.y += p.vy;
+      if(p.x<0||p.x>w) p.vx*=-1;
+      if(p.y<0||p.y>h) p.vy*=-1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `hsla(${p.hue}, 95%, 65%, .55)`;
+      ctx.fill();
+      for(let j=i+1;j<pts.length;j++){
+        const q = pts[j];
+        const dx = p.x-q.x, dy = p.y-q.y;
+        const d = Math.hypot(dx,dy);
+        const max = 150*devicePixelRatio;
+        if(d < max){
+          ctx.beginPath();
+          ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y);
+          ctx.strokeStyle = `hsla(${(p.hue+q.hue)/2}, 90%, 65%, ${(1-d/max)*0.16})`;
+          ctx.lineWidth = 0.7*devicePixelRatio;
+          ctx.stroke();
+        }
+      }
+    }
+    raf = requestAnimationFrame(draw);
+  }
+  size(); init(); draw();
+  let t;
+  window.addEventListener('resize', ()=>{
+    clearTimeout(t);
+    t = setTimeout(()=>{ cancelAnimationFrame(raf); size(); init(); draw(); }, 180);
+  });
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    cancelAnimationFrame(raf);
+  }
+})();
+
+/* ============================================================
+   7. GLOBAL UI WIRING
+   ============================================================ */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* sticky header */
+const header = document.getElementById('header');
+const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 12);
+window.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* mobile nav */
+const burger = document.getElementById('burger');
+const navlinks = document.getElementById('navlinks');
+burger.addEventListener('click', ()=>{
+  const open = navlinks.classList.toggle('open');
+  burger.setAttribute('aria-expanded', open);
+});
+navlinks.addEventListener('click', e=>{
+  if(e.target.tagName === 'A'){
+    navlinks.classList.remove('open');
+    burger.setAttribute('aria-expanded','false');
+  }
+});
+
+/* router boot */
+window.addEventListener('hashchange', render);
+window.addEventListener('DOMContentLoaded', render);
+renderAuth();
+render();
+</script>
+</body>
+</html>
